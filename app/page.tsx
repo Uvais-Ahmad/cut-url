@@ -6,9 +6,10 @@ export default function Home() {
   const {setTheme} = useTheme();
   const [themeToggle, setThemeToggle] = useState<boolean>(false)
   return (
-    <div className=''>
-      hello world
-      <Button onClick={() => {setTheme(themeToggle? "dark": "light");setThemeToggle(!themeToggle)}}>Click me</Button>
+    <div>
+      <h1 className='text-2xl md:text-4xl font-bold text-center'>
+        {`Shorten Your Loooong Links :)`}
+      </h1>
     </div>
   );
 }
