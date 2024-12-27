@@ -1,12 +1,10 @@
 "use client"
 import LinkShortenerInput from '@/components/LinkShortnerInput';
 import NavBar from '@/components/NavBar';
-// import { Button } from '@/components/ui/button';
-// import { useTheme } from 'next-themes';
 import React from 'react';
+
+// Public Home Page (for non-authenticated users)
 export default function Home() {
-  // const {setTheme} = useTheme();
-  // const [themeToggle, setThemeToggle] = useState<boolean>(false)
   return (
     <div className='h-full'>
       <NavBar />
