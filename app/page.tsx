@@ -13,7 +13,6 @@ export default function Home() {
           {`Shorten Your Loooong Links :)`}
         </h1>
         <p className='text-center mt-6'>CutLink is an efficiently and easy-to-use URL shortening service that streamlines your online experience.</p>
-        {/* Component which contain search bar */}
         <LinkShortenerInput />
       </div>
     </div>
