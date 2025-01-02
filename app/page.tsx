@@ -9,10 +9,10 @@ export default function Home() {
     <div className='h-full'>
       <NavBar />
       <div>
-        <h1 className='text-4xl md:text-5xl  lg:text-6xl font-bold text-center mt-6 md:mt-20'>
+        <h1 className='text-4xl md:text-5xl mx-5  lg:text-6xl font-bold text-center mt-6 md:mt-20'>
           {`Shorten Your Loooong Links :)`}
         </h1>
-        <p className='text-center mt-6  text-base font-mono'>CutLink is an efficiently and easy-to-use URL shortening service.</p>
+        <p className='text-center mt-6 mx-7  text-base font-mono'>CutLink is an efficiently and easy-to-use URL shortening service.</p>
         <LinkShortenerInput />
       </div>
     </div>
