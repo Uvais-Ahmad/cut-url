@@ -4,7 +4,7 @@ import LinkShortenerInput from '@/components/LinkShortnerInput';
 import NavBar from '@/components/NavBar';
 import { Button } from '@/components/ui/button';
 import { ColumnDef } from '@tanstack/react-table';
-import { Copy, Link, Link2, Link2Off, QrCode, Unlink } from 'lucide-react';
+import { Copy, Link, QrCode, Unlink } from 'lucide-react';
 import React from 'react';
 type ShortUrl =  {
   id : number;
