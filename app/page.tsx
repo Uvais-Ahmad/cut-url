@@ -4,17 +4,16 @@ import LinkShortenerInput from '@/components/LinkShortnerInput';
 import NavBar from '@/components/NavBar';
 import { Button } from '@/components/ui/button';
 import { ColumnDef } from '@tanstack/react-table';
-import { Copy } from 'lucide-react';
+import { Copy, Link, Link2, Link2Off, QrCode, Unlink } from 'lucide-react';
 import React from 'react';
-import Image from 'next/image'
-import getFaviconUrl from '@/lib/getFavicon';
-import WebsiteIcon from '@/components/WebsiteIcon';
 type ShortUrl =  {
   id : number;
   originalUrl : string;
   shortUrl : string;
   createdAt : string;
   updatedAt : string;
+  clicks : number;
+  active ?: boolean;
 }
 
 // Public Home Page (for non-authenticated users)
@@ -27,6 +26,8 @@ export default function Home() {
       shortUrl : 'https://cutlink.com/abc',
       createdAt : '2021-07-01',
       updatedAt : '2021-07-01',
+      clicks: 122,
+      active : true
     },
     {
       id : 2,
@@ -34,6 +35,44 @@ export default function Home() {
       shortUrl : 'https://cutlink.com/xyz',
       createdAt : '2021-07-01',
       updatedAt : '2021-07-01',
+      clicks : 10,
+      active : false
+    },
+    {
+      id : 1,
+      originalUrl : 'https://youtube.com',
+      shortUrl : 'https://cutlink.com/abc',
+      createdAt : '2021-07-01',
+      updatedAt : '2021-07-01',
+      clicks: 122,
+      active : true
+    },
+    {
+      id : 2,
+      originalUrl : 'https://facebook.com',
+      shortUrl : 'https://cutlink.com/xyz',
+      createdAt : '2021-07-01',
+      updatedAt : '2021-07-01',
+      clicks : 10,
+      active : false
+    },
+    {
+      id : 1,
+      originalUrl : 'https://youtube.com',
+      shortUrl : 'https://cutlink.com/abc',
+      createdAt : '2021-07-01',
+      updatedAt : '2021-07-01',
+      clicks: 122,
+      active : true
+    },
+    {
+      id : 2,
+      originalUrl : 'https://facebook.com',
+      shortUrl : 'https://cutlink.com/xyz',
+      createdAt : '2021-07-01',
+      updatedAt : '2021-07-01',
+      clicks : 10,
+      active : false
     }
   ]
 
@@ -43,7 +82,7 @@ export default function Home() {
       // header : 'Short URL',
       header : () => <div className='ml-2 font-semibold'>Short URL</div>,
       cell : ({row}) => {
-        const data = row.getValue('shortUrl')
+        const data = row.getValue('shortUrl') as string
         return (
           <div className='flex items-center'>
             <div className='text-neutral-400'>{data}</div>
@@ -56,13 +95,13 @@ export default function Home() {
     },
     {
       accessorKey : 'originalUrl',
-      header : 'Original URL',
+      
+      header : () => <div className='ml-6 font-semibold'>Original URL</div>,
       cell : ({row}) => {
-        const data = row.getValue('originalUrl');
-        const faviconUrl = getFaviconUrl(data);
+        const data = row.getValue('originalUrl') as string;
         return (
           <div className='flex items-center'>
-            {/* <WebsiteIcon websiteUrl={data} /> */}
+            <Link className='text-blue-500 mx-2' />
             <div className='text-neutral-400'>{data}</div>
           </div>
         )
@@ -71,14 +110,32 @@ export default function Home() {
     {
       accessorKey : 'qrCode',
       header : 'QR Code',
+      cell : ({ }) => {
+        return (
+          <div className='flex items-center'>
+            <QrCode className='text-neutral-400'/>
+          </div>
+        )
+      }
     },
     {
       accessorKey : 'clicks',
       header : 'Clicks',
     },
     {
-      accessorKey : 'status',
-      header : 'status',
+      accessorKey : 'active',
+      header : 'Status',
+      cell : ({row}) => {
+        const data = row.getValue('active') as boolean;
+        return (
+          <div className='flex items-center'>
+            <div className={`${data ? 'bg-green-600 bg-opacity-30' : 'bg-amber-600 bg-opacity-25'} rounded-full ml-2 p-1`}>
+              {data ? <Link className='text-green-300 p-1'/> : <Unlink className='text-amber-400 p-1'/>}
+            </div>  
+            <div className={`text-neutral-400 ml-2 ${data ? 'text-green-300': 'text-amber-400'}`}>{data ? 'Active' : 'Inactive'}</div>
+          </div>
+        )
+      }
     },
     {
       accessorKey : 'createdAt',
