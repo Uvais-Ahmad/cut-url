@@ -1,5 +1,6 @@
 "use client"
 import { DataTable } from '@/components/DataTable';
+import Footer from '@/components/Footer';
 import LinkShortenerInput from '@/components/LinkShortnerInput';
 import NavBar from '@/components/NavBar';
 import { Button } from '@/components/ui/button';
@@ -101,7 +102,7 @@ export default function Home() {
         const data = row.getValue('originalUrl') as string;
         return (
           <div className='flex items-center'>
-            <Link className='text-blue-500 mx-2' />
+            <Link className='text-blue-500 mx-2' size={'16px'} />
             <div className='text-neutral-400'>{data}</div>
           </div>
         )
@@ -155,6 +156,7 @@ export default function Home() {
           <DataTable  columns={column} data={rowData} />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
