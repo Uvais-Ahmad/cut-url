@@ -113,9 +113,11 @@ export default function Home() {
       header : 'QR Code',
       cell : ({ }) => {
         return (
+          // 
           <div className='flex items-center'>
             <QrCode className='text-neutral-400'/>
           </div>
+          // 
         )
       }
     },
