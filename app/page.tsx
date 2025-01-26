@@ -132,10 +132,10 @@ export default function Home() {
         const data = row.getValue('active') as boolean;
         return (
           <div className='flex items-center'>
-            <div className={`${data ? 'bg-green-600 bg-opacity-30' : 'bg-amber-600 bg-opacity-25'} rounded-full ml-2 p-1`}>
-              {data ? <Link className='text-green-300 p-1'/> : <Unlink className='text-amber-400 p-1'/>}
+            <div className={`rounded-full ml-2 p-1 ${data ? 'bg-green-900 bg-opacity-30 dark:bg-green-600 dark:bg-opacity-30' : 'bg-amber-900 bg-opacity-25 dark:bg-amber-600 dark:bg-opacity-25'}`}>
+              {data ? <Link className='dark:text-green-300 text-green-600 p-1'/> : <Unlink className='dark:text-amber-400 text-amber-600 p-1'/>}
             </div>  
-            <div className={`text-neutral-400 ml-2 ${data ? 'text-green-300': 'text-amber-400'}`}>{data ? 'Active' : 'Inactive'}</div>
+            <div className={`ml-2 ${data ? 'dark:text-green-300 text-green-600': 'dark:text-amber-400 text-amber-600'}`}>{data ? 'Active' : 'Inactive'}</div>
           </div>
         )
       }
