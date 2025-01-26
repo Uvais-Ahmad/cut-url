@@ -20,10 +20,10 @@ function NavBar() {
                     <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                     <span className="sr-only">Toggle theme</span>
                 </Button>
-                <Button className='rounded-2xl bg-neutral-900 text-white border-2 mx-2'>
+                <Button className='rounded-2xl bg-neutral-900 text-white border-2 mx-2 hover:bg-neutral-800'>
                     LogIn <LogIn/>
                 </Button>
-                <Button className='rounded-2xl bg-blue-500 text-white border-2'>
+                <Button className='rounded-2xl bg-blue-500 text-white border-2 hover:bg-blue-400'>
                     Register Now
                 </Button>
             </div>
