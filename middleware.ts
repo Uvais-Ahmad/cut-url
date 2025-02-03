@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
     const {cookies } = request;
     const anonymousUserId = cookies.get(ANON_COOKIE_NAME)?.value;
     if(!anonymousUserId) {
-        const newAnonymousUserId = nanoid(5);
+        const newAnonymousUserId = nanoid();
         const response = NextResponse.next();
         response.cookies.set(ANON_COOKIE_NAME, newAnonymousUserId, {
             maxAge: 60 * 60 * 24 * 30, // 30 days
