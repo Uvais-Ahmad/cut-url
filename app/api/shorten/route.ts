@@ -1,3 +1,4 @@
+import validateUrl from "@/lib/validateUrl";
 import { PrismaClient } from "@prisma/client";
 import { nanoid } from "nanoid";
 import { NextRequest, NextResponse } from "next/server";
@@ -13,9 +14,9 @@ export async function POST(request: NextRequest) {
     const ip: string = request.headers.get('x-forwarded-for') || 'unknown';
 
     // checK if the URL is valid
-    if(originalUrl || cookies) {
+    if(!originalUrl || !validateUrl(originalUrl)) {
         return NextResponse.json({
-            error: "Invalid URL"
+            error: "Please provide a valid URL"
         }, {
             status: 400 // Bad Request
         })
