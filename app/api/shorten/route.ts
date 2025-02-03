@@ -38,6 +38,25 @@ export async function POST(request: NextRequest) {
             });
         }
 
+        // check if the URL already exists
+        const urlExists = await prisma.shortUrl.findFirst({
+            where: {
+                originalUrl,
+                anonUserId: anonUserExists?.id
+            }
+        });
+        if(urlExists) {
+            return NextResponse.json({
+                shortUrl: `${BaseUrl}/${urlExists.shortCode}`,
+                message: "Short URL already exists",
+                data: urlExists
+            }, {
+                status: 200 // OK
+            });
+        }
+
+        
+
         const shortCode = nanoid(shortCodeLen);
 
         const shortUrlRecord = await prisma.shortUrl.create({
