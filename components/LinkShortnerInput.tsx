@@ -10,7 +10,6 @@ function LinkShortenerInput() {
     const [shortUrl, setShortUrl] = useState<string| ''>('');
 
     const handleSubmit = async () => {
-        console.log("Original Url : ",originalUrl);
         const data = await createShortUrl(originalUrl);
         setShortUrl(data.shortUrl);
     }
