@@ -83,3 +83,40 @@ export async function POST(request: NextRequest) {
         });
     }
 }
+
+export async function GET(request: NextRequest) {
+    const cookies = request.cookies.get(ANON_COOKIE_NAME)?.value;
+    if(!cookies) {
+        return NextResponse.json({
+            error: "Anonymous user not found"
+        }, {
+            status: 404 // Not Found
+        });
+    }
+
+    const anonUserExists = await prisma.anonymousUser.findUnique({
+        where: {
+            sessionId: cookies
+        }
+    });
+
+    if(!anonUserExists) {
+        return NextResponse.json({
+            error: "Anonymous user not created"
+        }, {
+            status: 404 // Not Found
+        });
+    }
+
+    const data = await prisma.shortUrl.findMany({
+        where: {
+            anonUserId: anonUserExists.id
+        }
+    });
+    return NextResponse.json({
+        message: "Short URLs retrieved successfully",
+        data
+    }, {
+        status: 200 // OK
+    });
+}

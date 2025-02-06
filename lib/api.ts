@@ -21,3 +21,7 @@ export const createShortUrl = async (originalUrl: string) => {
         body: JSON.stringify({originalUrl})
     })
 }
+
+export const getShortUrl = async () => {
+    return axiosFetchUrl<{shortUrl: string}>('/api/shorten');
+}
