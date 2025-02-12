@@ -17,7 +17,7 @@ type ShortUrl =  {
   active ?: boolean;
 }
 
-// Public Home Page (for non-authenticated users)
+// Public Home Page (for non-authenticated users) // // //
 export default function Home() {
 
   const rowData : ShortUrl[] = [
