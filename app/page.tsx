@@ -4,80 +4,28 @@ import Footer from '@/components/Footer';
 import LinkShortenerInput from '@/components/LinkShortnerInput';
 import NavBar from '@/components/NavBar';
 import { Button } from '@/components/ui/button';
+import { getShortUrl } from '@/lib/api';
+import { ShortUrlsProps } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { Copy, Link, QrCode, Unlink } from 'lucide-react';
-import React from 'react';
-type ShortUrl =  {
-  id : number;
-  originalUrl : string;
-  shortUrl : string;
-  createdAt : string;
-  updatedAt : string;
-  clicks : number;
-  active ?: boolean;
-}
+import React, { useEffect, useState } from 'react';
+
 
 // Public Home Page (for non-authenticated users) // // //
 export default function Home() {
+  const [data, setData] = useState<ShortUrlsProps[]>([]);
 
-  const rowData : ShortUrl[] = [
-    {
-      id : 1,
-      originalUrl : 'https://youtube.com',
-      shortUrl : 'https://cutlink.com/abc',
-      createdAt : '2021-07-01',
-      updatedAt : '2021-07-01',
-      clicks: 122,
-      active : true
-    },
-    {
-      id : 2,
-      originalUrl : 'https://facebook.com',
-      shortUrl : 'https://cutlink.com/xyz',
-      createdAt : '2021-07-01',
-      updatedAt : '2021-07-01',
-      clicks : 10,
-      active : false
-    },
-    {
-      id : 1,
-      originalUrl : 'https://youtube.com',
-      shortUrl : 'https://cutlink.com/abc',
-      createdAt : '2021-07-01',
-      updatedAt : '2021-07-01',
-      clicks: 122,
-      active : true
-    },
-    {
-      id : 2,
-      originalUrl : 'https://facebook.com',
-      shortUrl : 'https://cutlink.com/xyz',
-      createdAt : '2021-07-01',
-      updatedAt : '2021-07-01',
-      clicks : 10,
-      active : false
-    },
-    {
-      id : 1,
-      originalUrl : 'https://youtube.com',
-      shortUrl : 'https://cutlink.com/abc',
-      createdAt : '2021-07-01',
-      updatedAt : '2021-07-01',
-      clicks: 122,
-      active : true
-    },
-    {
-      id : 2,
-      originalUrl : 'https://facebook.com',
-      shortUrl : 'https://cutlink.com/xyz',
-      createdAt : '2021-07-01',
-      updatedAt : '2021-07-01',
-      clicks : 10,
-      active : false
-    }
-  ]
+  const fetchShortUrl = async () => {
+    const response = await getShortUrl();
+    const data =  response?.data?.shortUrls as ShortUrlsProps[];
+    setData(data);
+  }
 
-  const column : ColumnDef<ShortUrl>[] = [
+  useEffect(() => {
+    fetchShortUrl();  
+  }, []);
+
+  const column : ColumnDef<ShortUrlsProps>[] = [
     {
       accessorKey : 'shortUrl',
       // header : 'Short URL',
@@ -155,7 +103,7 @@ export default function Home() {
         <p className='text-center mt-6 mx-7 text-base font-mono text-neutral-400'>Briefly is an efficiently and easy-to-use URL shortening service.</p>
         <LinkShortenerInput />
         <div className='w-3/4 mx-auto mt-12'>
-          <DataTable  columns={column} data={rowData} />
+          <DataTable  columns={column} data={data} />
         </div>
       </div>
       <Footer />

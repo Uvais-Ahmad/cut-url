@@ -85,6 +85,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+    console.log("GET request");
     const cookies = request.cookies.get(ANON_COOKIE_NAME)?.value;
     if(!cookies) {
         return NextResponse.json({
@@ -115,7 +116,9 @@ export async function GET(request: NextRequest) {
     });
     return NextResponse.json({
         message: "Short URLs retrieved successfully",
-        data
+        data: {
+            shortUrls: data
+        }
     }, {
         status: 200 // OK
     });

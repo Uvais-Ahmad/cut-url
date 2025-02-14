@@ -1,3 +1,4 @@
+import { ShortUrlsProps } from "@/types";
 import axiosInstance from "./axiosInstance";
 
 export const axiosFetchUrl = async <T>(url: string, options?: RequestInit): Promise<T> => {
@@ -21,7 +22,11 @@ export const createShortUrl = async (originalUrl: string) => {
         body: JSON.stringify({originalUrl})
     })
 }
-
+interface Data {
+    shortUrls: ShortUrlsProps[];
+}
 export const getShortUrl = async () => {
-    return axiosFetchUrl<{shortUrl: string}>('/api/shorten');
+    return axiosFetchUrl<{data: Data}>('/api/shorten', {
+        method: 'GET'
+    });
 }
