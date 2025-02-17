@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             error: "An error occurred while creating the short URL"
         }, {
-            status: 500 // Internal Server Error
+            status: 500
         });
     }
 }
@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({
             error: "Anonymous user not found"
         }, {
-            status: 404 // Not Found
+            status: 404
         });
     }
 
@@ -105,7 +105,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({
             error: "Anonymous user not created"
         }, {
-            status: 404 // Not Found
+            status: 404
         });
     }
 
