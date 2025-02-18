@@ -13,7 +13,7 @@ import React, { useEffect, useState } from 'react';
 
 const dummyRecord : ShortUrlsProps[] = [
   {
-    id : 1,
+    id : '1',
     originalUrl : 'https://youtube.com/dfbnjdsf/dfdsyiue/asdfercr',
     shortUrl : 'https://cutlink.com/abcmnpe',
     createdAt : '2021-07-01',
@@ -22,7 +22,7 @@ const dummyRecord : ShortUrlsProps[] = [
     active : true
   },
   {
-    id : 2,
+    id : '2',
     originalUrl : 'https://facebook.com',
     shortUrl : 'https://cutlink.com/xyzmnpe',
     createdAt : '2021-07-01',
@@ -31,7 +31,7 @@ const dummyRecord : ShortUrlsProps[] = [
     active : false
   },
   {
-    id : 1,
+    id : '1',
     originalUrl : 'https://youtube.com',
     shortUrl : 'https://cutlink.com/abcmnpe',
     createdAt : '2021-07-01',
@@ -40,7 +40,7 @@ const dummyRecord : ShortUrlsProps[] = [
     active : true
   },
   {
-    id : 2,
+    id : '2',
     originalUrl : 'https://facebook.com',
     shortUrl : 'https://cutlink.com/xyzmnpe',
     createdAt : '2021-07-01',
@@ -49,7 +49,7 @@ const dummyRecord : ShortUrlsProps[] = [
     active : false
   },
   {
-    id : 1,
+    id : '1',
     originalUrl : 'https://youtube.com',
     shortUrl : 'https://cutlink.com/abcmnpe',
     createdAt : '2021-07-01',
@@ -58,7 +58,7 @@ const dummyRecord : ShortUrlsProps[] = [
     active : true
   },
   {
-    id : 2,
+    id : '2',
     originalUrl : 'https://facebook.com',
     shortUrl : 'https://cutlink.com/xyzmnpe',
     createdAt : '2021-07-01',
