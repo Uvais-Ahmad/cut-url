@@ -112,12 +112,23 @@ export async function GET(request: NextRequest) {
     const data = await prisma.shortUrl.findMany({
         where: {
             anonUserId: anonUserExists.id
-        }
+        },
+    });
+    const shortUrls = data.map((url) => {
+        return {
+            id: url.id,
+            originalUrl: url.originalUrl,
+            shortUrl: `${BaseUrl}/${url.shortCode}`,
+            createdAt: url.createdAt,
+            updatedAt: url.updatedAt,
+            clicks: url.clicks,
+            active: !url.isExpired
+        };
     });
     return NextResponse.json({
         message: "Short URLs retrieved successfully",
         data: {
-            shortUrls: data
+            shortUrls
         }
     }, {
         status: 200 // OK

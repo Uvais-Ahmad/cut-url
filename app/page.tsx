@@ -1,24 +1,83 @@
 "use client"
+import CopyToClipboard from '@/components/CopyToClipboard';
 import { DataTable } from '@/components/DataTable';
 import Footer from '@/components/Footer';
 import LinkShortenerInput from '@/components/LinkShortnerInput';
 import NavBar from '@/components/NavBar';
-import { Button } from '@/components/ui/button';
 import { getShortUrl } from '@/lib/api';
 import { ShortUrlsProps } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
-import { Copy, Link, QrCode, Unlink } from 'lucide-react';
+import { Link, QrCode, Unlink } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
+
+const dummyRecord : ShortUrlsProps[] = [
+  {
+    id : 1,
+    originalUrl : 'https://youtube.com/dfbnjdsf/dfdsyiue/asdfercr',
+    shortUrl : 'https://cutlink.com/abcmnpe',
+    createdAt : '2021-07-01',
+    updatedAt : '2021-07-01',
+    clicks: 122,
+    active : true
+  },
+  {
+    id : 2,
+    originalUrl : 'https://facebook.com',
+    shortUrl : 'https://cutlink.com/xyzmnpe',
+    createdAt : '2021-07-01',
+    updatedAt : '2021-07-01',
+    clicks : 10,
+    active : false
+  },
+  {
+    id : 1,
+    originalUrl : 'https://youtube.com',
+    shortUrl : 'https://cutlink.com/abcmnpe',
+    createdAt : '2021-07-01',
+    updatedAt : '2021-07-01',
+    clicks: 122,
+    active : true
+  },
+  {
+    id : 2,
+    originalUrl : 'https://facebook.com',
+    shortUrl : 'https://cutlink.com/xyzmnpe',
+    createdAt : '2021-07-01',
+    updatedAt : '2021-07-01',
+    clicks : 10,
+    active : false
+  },
+  {
+    id : 1,
+    originalUrl : 'https://youtube.com',
+    shortUrl : 'https://cutlink.com/abcmnpe',
+    createdAt : '2021-07-01',
+    updatedAt : '2021-07-01',
+    clicks: 122,
+    active : true
+  },
+  {
+    id : 2,
+    originalUrl : 'https://facebook.com',
+    shortUrl : 'https://cutlink.com/xyzmnpe',
+    createdAt : '2021-07-01',
+    updatedAt : '2021-07-01',
+    clicks : 10,
+    active : false
+  }
+]
 
 // Public Home Page (for non-authenticated users) // // //
 export default function Home() {
   const [data, setData] = useState<ShortUrlsProps[]>([]);
-
   const fetchShortUrl = async () => {
     const response = await getShortUrl();
     const data =  response?.data?.shortUrls as ShortUrlsProps[];
-    setData(data);
+    if(data.length) {
+      setData(data);
+    }
+    else setData(dummyRecord);
   }
 
   useEffect(() => {
@@ -35,9 +94,9 @@ export default function Home() {
         return (
           <div className='flex items-center'>
             <div className='text-neutral-400'>{data}</div>
-            <Button size={'icon'} className='bg-gray-800 text-white rounded-full hover:bg-gray-700 ml-2'>
-              <Copy />
-            </Button>
+            <CopyToClipboard>
+              {data}
+            </CopyToClipboard>
           </div>
         )
       }
@@ -51,7 +110,7 @@ export default function Home() {
         return (
           <div className='flex items-center'>
             <Link className='text-blue-500 mx-2' size={'16px'} />
-            <div className='text-neutral-400'>{data}</div>
+            <p className='text-neutral-400 truncate md:w-48'>{data}</p>
           </div>
         )
       }

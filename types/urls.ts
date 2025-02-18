@@ -7,7 +7,9 @@ export interface ShortUrlsProps {
     isExpired: boolean;
     originalUrl: string;
     shortCode: string;
+    shortUrl?: string;
     updatedAt: string;
     userId: string | null;
+    active?: boolean;
 }
 
