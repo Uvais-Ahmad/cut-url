@@ -113,6 +113,9 @@ export async function GET(request: NextRequest) {
         where: {
             anonUserId: anonUserExists.id
         },
+        orderBy: {
+            createdAt: "desc"
+        }
     });
     const shortUrls = data.map((url) => {
         return {
