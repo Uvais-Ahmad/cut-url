@@ -71,6 +71,7 @@ const dummyRecord : ShortUrlsProps[] = [
 // Public Home Page (for non-authenticated users) // // //
 export default function Home() {
   const [data, setData] = useState<ShortUrlsProps[]>([]);
+  const [reRender, setReRender] = useState<boolean>(false);
   const fetchShortUrl = async () => {
     const response = await getShortUrl();
     const data =  response?.data?.shortUrls as ShortUrlsProps[];
@@ -81,8 +82,9 @@ export default function Home() {
   }
 
   useEffect(() => {
+    console.log('fetching data', reRender);
     fetchShortUrl();  
-  }, []);
+  }, [reRender]);
 
   const column : ColumnDef<ShortUrlsProps>[] = [
     {
@@ -160,7 +162,9 @@ export default function Home() {
           {`Shorten Your Loooong Links :)`}
         </h1>
         <p className='text-center mt-6 mx-7 text-base font-mono text-neutral-400'>Briefly is an efficiently and easy-to-use URL shortening service.</p>
-        <LinkShortenerInput />
+        <LinkShortenerInput 
+          setReRender={setReRender}
+        />
         <div className='w-3/4 mx-auto mt-12'>
           <DataTable  columns={column} data={data} />
         </div>

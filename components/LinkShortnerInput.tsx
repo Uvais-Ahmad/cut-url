@@ -5,13 +5,18 @@ import { Label } from '@radix-ui/react-label'
 import { Button } from './ui/button'
 import { createShortUrl } from '@/lib/api'
 
-function LinkShortenerInput() {
+function LinkShortenerInput({
+    setReRender
+}: {
+    setReRender: React.Dispatch<React.SetStateAction<boolean>>
+}) {
     const [originalUrl, setOriginalUrl] = useState<string| ''>('');
     const [shortUrl, setShortUrl] = useState<string| ''>('');
 
     const handleSubmit = async () => {
         const data = await createShortUrl(originalUrl);
         setShortUrl(data.shortUrl);
+        setReRender((prev) => !prev);
     }
 
     return (
@@ -19,7 +24,7 @@ function LinkShortenerInput() {
             <div className='w-3/4 mt-10 relative flex mx-auto  md:w-2/4 lg:w-2/5'>
                 <Link className='absolute text-neutral-500 left-4 top-4 sm:left-5 sm:top-5 ' />
                 <input 
-                    className='w-full rounded-full dark:bg-neutral-900 border-4 p-4 pl-12 sm:p-4 sm:pl-12' 
+                    className='w-full rounded-full dark:bg-neutral-900 border-4 p-4 pl-12 sm:pr-32 sm:p-4 sm:pl-12' 
                     type='text' 
                     placeholder='Paste your link here' 
                     value={originalUrl}
