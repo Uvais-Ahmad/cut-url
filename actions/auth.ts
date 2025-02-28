@@ -1,7 +1,7 @@
 import { RegisterForm, RegisterFormSchema } from "@/lib/definitions";
 import bcrypt from 'bcryptjs';
 import { PrismaClient } from "@prisma/client";
-import { createSession } from "@/lib/session";
+import { createSession, deleteSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 const prisma = new PrismaClient();
 
@@ -50,4 +50,9 @@ export async function register( state: RegisterForm, formData: FormData) {
     await createSession(user?.id);
     // authorization
     redirect('/home');
+}
+
+export async function logout () {
+    await deleteSession()
+    redirect('/login');
 }
