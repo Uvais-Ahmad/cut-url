@@ -1,5 +1,5 @@
 import {JWTPayload, jwtVerify, SignJWT} from 'jose'
-import { cookies } from 'next/headers';
+
 const secretKey = process.env.SESSION_SECRET
 const encryptKey = new TextEncoder().encode(secretKey);
 
@@ -25,6 +25,7 @@ export async function decrypt(session: string | undefined = '') {
 
 
 export async function createSession(userId: string) {
+    const { cookies } = await import('next/headers');
     const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24);
     const session = await encrypt({userId, expiresAt});
     const cookieStore = await cookies();
@@ -38,6 +39,7 @@ export async function createSession(userId: string) {
 }
 
 export async function updateSession () {
+    const { cookies } = await import('next/headers');
     const session = (await cookies()).get('session')?.value;
     const payload = await decrypt(session);
 
@@ -56,6 +58,7 @@ export async function updateSession () {
 }
 
 export async function deleteSession () {
+    const { cookies } = await import('next/headers');
     const cookieStore = await cookies();
     cookieStore.delete('session');
 }

@@ -1,3 +1,4 @@
+"use client"
 import { register } from '@/actions/auth'
 import { useActionState } from 'react'
 
