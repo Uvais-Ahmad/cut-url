@@ -1,7 +1,7 @@
 
 export default function LogInPage () {
     return (
-        <div className="">
+        <div className="w-full">
             <div>
                 
             </div>
