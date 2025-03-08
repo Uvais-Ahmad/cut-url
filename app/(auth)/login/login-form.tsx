@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import Image from 'next/image'
 import React from 'react'
 
 function LogInForm() {
@@ -89,8 +88,14 @@ function LogInForm() {
                         </div>
                     </form>
                     {/* Image of Card */}
-                    <div className='relative hidden bg-muted md:block'>
-                        <Image alt='briefly-welcome' src='' className=''/>
+                    <div className='relative hidden'> {/*bg-muted md:block*/}
+                        {/* <img 
+                            alt='briefly-welcome' 
+                            src='/images/url-shortener.jpg' 
+                            className='h-full w-full'
+                            // width={100}
+                            // height={100}
+                        /> */}
                     </div>
                 </CardContent>
             </Card>
