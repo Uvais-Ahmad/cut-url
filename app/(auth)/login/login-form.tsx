@@ -8,7 +8,7 @@ function LogInForm() {
     return (
         <div className='flex flex-col gap-6'>
             <Card className='overflow-hidden'>
-                <CardContent className='grid p-0 md:grid-cols-2'>
+                <CardContent className=''>
                     <form className='p-6 md:p-8'>
                         <div className='flex flex-col gap-6'>
                             {/* Header */}
