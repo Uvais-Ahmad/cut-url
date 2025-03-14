@@ -16,6 +16,16 @@ export function RegisterForm() {
                             <h1 className='text-2xl font-bold'>Welcome</h1>
                             <p className='text-balance text-muted-foreground'>Register to your Briefly account</p>
                         </div>
+                        
+                        <div className='grid gap-2'>
+                            <Label htmlFor='email'>Full Name</Label>
+                            <Input
+                                id="name"
+                                type="text"
+                                placeholder="e.g John Wick"
+                                required
+                            />
+                        </div>
 
                         <div className='grid gap-2'>
                             <Label htmlFor='email'>Email</Label>
