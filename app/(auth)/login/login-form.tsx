@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import Link from 'next/link'
 import React from 'react'
 
 function LogInForm() {
@@ -80,10 +81,10 @@ function LogInForm() {
                                 </Button>
                             </div>
                             <div className="text-center text-sm">
-                                Don&apos;t have an account?{" "}
-                                <a href="#" className="underline underline-offset-4">
-                                    Sign up
-                                </a>
+                                Don&apos;t have an account ?{" "}
+                                <Link href={'/register'} className='underline underline-offset-2'>
+                                    Signup
+                                </Link>
                             </div>
                         </div>
                     </form>
