@@ -44,6 +44,7 @@ export function RegisterForm() {
                             <Input
                                 type='password' id='password' required
                             />
+                            <Label className='text-xs'>Minimum 8 length password</Label>
                         </div>
                         <Button type='submit' className='w-full'>
                             Register
