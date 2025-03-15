@@ -18,11 +18,4 @@ export const RegisterFormSchema = z.object({
         .trim(),
 })
 
-export type RegisterForm = | {
-    error: {
-        name?: string[],
-        email?: string[],
-        password?: string[],
-    },
-    message?: string,
-} | undefined
+export type TRegisterFormSchema = z.infer<typeof RegisterFormSchema>
