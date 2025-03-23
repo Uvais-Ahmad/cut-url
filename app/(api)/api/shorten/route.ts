@@ -85,27 +85,28 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-    console.log("GET request");
+    const ip: string = request.headers.get('x-forwarded-for') || 'unknown';
     const cookies = request.cookies.get(ANON_COOKIE_NAME)?.value;
     if(!cookies) {
         return NextResponse.json({
             error: "Anonymous user not found"
         }, {
-            status: 404
+            status: 400
         });
     }
 
-    const anonUserExists = await prisma.anonymousUser.findUnique({
+    let anonUserExists = await prisma.anonymousUser.findUnique({
         where: {
             sessionId: cookies
         }
     });
 
     if(!anonUserExists) {
-        return NextResponse.json({
-            error: "Anonymous user not created"
-        }, {
-            status: 404
+        anonUserExists = await prisma.anonymousUser.create({
+            data: {
+                sessionId: cookies,
+                ipAddress: ip
+            }
         });
     }
 
