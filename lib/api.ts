@@ -1,5 +1,6 @@
 import { ShortUrlsProps } from "@/types";
 import axiosInstance from "./axiosInstance";
+import { TRegisterFormSchema } from "./types";
 
 export const axiosFetchUrl = async <T>(url: string, options?: RequestInit): Promise<T> => {
     try {
@@ -29,4 +30,11 @@ export const getShortUrl = async () => {
     return axiosFetchUrl<{data: Data}>('/api/shorten', {
         method: 'GET'
     });
+}
+
+export const handleRegister = async (body: TRegisterFormSchema) => {
+    return axiosInstance('/api/register', {
+        method: 'POST',
+        data: JSON.stringify(body)
+    })
 }

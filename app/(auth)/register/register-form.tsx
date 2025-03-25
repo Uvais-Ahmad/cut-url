@@ -1,15 +1,30 @@
+"use client"
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { handleRegister } from '@/lib/api'
+import { TRegisterFormSchema } from '@/lib/types'
 import Link from 'next/link'
+import { NextResponse } from 'next/server'
 import React from 'react'
+import { useForm } from 'react-hook-form'
 
 export function RegisterForm() {
+    const {handleSubmit } = useForm<TRegisterFormSchema>();
+
+    const onSubmit = async (data: TRegisterFormSchema) => {
+        const response = await handleRegister(data)
+        console.log("response in onSubmit : ",response)
+        if(response.status === 200) {
+            return NextResponse.redirect('/home');
+        }
+    }
+
     return (<div className='flex flex-col gap-6'>
         <Card className='overflow-hidden'>
             <CardContent className=''>
-                <form className='p-6 md:p-8'>
+                <form className='p-6 md:p-8' onSubmit={handleSubmit(onSubmit)}>
                     <div className='flex flex-col gap-6'>
                         {/* Header */}
                         <div className='flex flex-col items-center text-center'>

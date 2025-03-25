@@ -1,5 +1,6 @@
+import { ThemeProvider } from "@/components/Theme-provider";
 import React from "react";
-
+import "../globals.css"
 export default function AuthLayout({
     children
 }: {
@@ -8,7 +9,12 @@ export default function AuthLayout({
     return (
         <html lang="en">
             <body className="antialiased">
-                {children}
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="dark"
+                >
+                    {children}
+                </ThemeProvider>
             </body>
         </html>
     );

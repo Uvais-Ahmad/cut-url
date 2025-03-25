@@ -11,12 +11,12 @@ export async function POST(request: NextRequest) {
     const validateFields = RegisterFormSchema.safeParse(body);
 
     if(!validateFields.success) {
-        return validateFields
+        return NextResponse.json(validateFields, {status: 400})
     }
 
     const {name, email, password} = validateFields.data;
     const hashPassword = await bcrypt.hash(password, 10);
-        console.log("name, email, password", name, email, password);
+    console.log("name, email, password", name, email, password);
     
     const userExists = await prisma.user.findUnique({
         where: {
@@ -24,13 +24,13 @@ export async function POST(request: NextRequest) {
         }
     });
     if(userExists) {
-        return {
+        return NextResponse.json({
             errors: {
                 email: 'Email already exists',
                 name: '',
                 password: []
             }
-        }
+        }, {status: 400})
     }
     
     // Create user in database
@@ -44,6 +44,9 @@ export async function POST(request: NextRequest) {
 
     // create session
     await createSession(user?.id);
-    // authorization
-    return NextResponse.redirect('/home')
+    return NextResponse.json({
+        message: "Registered Successfully"
+    },{
+        status: 200
+    });
 }
