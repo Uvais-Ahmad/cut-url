@@ -11,7 +11,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 
 export function RegisterForm() {
-    const {handleSubmit } = useForm<TRegisterFormSchema>();
+    const {handleSubmit, register, formState: {errors} } = useForm<TRegisterFormSchema>();
 
     const onSubmit = async (data: TRegisterFormSchema) => {
         const response = await handleRegister(data)
@@ -33,13 +33,17 @@ export function RegisterForm() {
                         </div>
                         
                         <div className='grid gap-2'>
-                            <Label htmlFor='email'>Full Name</Label>
+                            <Label htmlFor='name'>Full Name</Label>
                             <Input
                                 id="name"
                                 type="text"
                                 placeholder="e.g John Wick"
                                 required
+                                {...register("name", {
+                                    required: "Please enter your Full name.",
+                                })}
                             />
+                            {errors.name && <p>{errors.name.message}</p>}
                         </div>
 
                         <div className='grid gap-2'>
@@ -49,7 +53,11 @@ export function RegisterForm() {
                                 type="email"
                                 placeholder="m@example.com"
                                 required
+                                {...register("email", {
+                                    required: "Please enter your valid email.",
+                                })}
                             />
+                            {errors.name && <p>{errors.name.message}</p>}
                         </div>
 
                         <div className='grid gap-2'>
@@ -58,7 +66,11 @@ export function RegisterForm() {
                             </div>
                             <Input
                                 type='password' id='password' required
+                                {...register("password", {
+                                    required: "Please enter your string password",
+                                })}
                             />
+                            {errors.name && <p>{errors.name.message}</p>}
                             <Label className='text-xs'>Minimum 8 length password</Label>
                         </div>
                         <Button type='submit' className='w-full'>
