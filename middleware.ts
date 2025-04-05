@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
     const session = await decrypt(sessionCookie);
 
     if(session?.userId && isPublicRoute) {
-        return NextResponse.redirect(new URL('/home', request.nextUrl))
+        // return NextResponse.redirect(new URL('/home', request.nextUrl))
     }
     if(isProtectedRoute && !session?.userId) {
         return NextResponse.redirect(new URL('/register', request.nextUrl))

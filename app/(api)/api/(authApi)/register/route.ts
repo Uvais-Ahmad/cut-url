@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
-    const body: unknown =  request.body;
+    const body: unknown =  await request.json();
     console.log("Body : ",body)
     const validateFields = RegisterFormSchema.safeParse(body);
 

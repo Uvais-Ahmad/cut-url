@@ -17,7 +17,7 @@ export function RegisterForm() {
         const response = await handleRegister(data)
         console.log("response in onSubmit : ",response)
         if(response.status === 200) {
-            return NextResponse.redirect('/home');
+            return NextResponse.redirect('/');
         }
     }
 
@@ -57,7 +57,7 @@ export function RegisterForm() {
                                     required: "Please enter your valid email.",
                                 })}
                             />
-                            {errors.name && <p>{errors.name.message}</p>}
+                            {errors.email && <p>{errors.email.message}</p>}
                         </div>
 
                         <div className='grid gap-2'>
@@ -70,7 +70,7 @@ export function RegisterForm() {
                                     required: "Please enter your string password",
                                 })}
                             />
-                            {errors.name && <p>{errors.name.message}</p>}
+                            {errors.password && <p>{errors.password.message}</p>}
                             <Label className='text-xs'>Minimum 8 length password</Label>
                         </div>
                         <Button type='submit' className='w-full'>
