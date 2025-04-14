@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label'
 import { handleRegister } from '@/lib/api'
 import { TRegisterFormSchema } from '@/lib/types'
 import Link from 'next/link'
-import { NextResponse } from 'next/server'
+import { permanentRedirect } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -15,9 +15,8 @@ export function RegisterForm() {
 
     const onSubmit = async (data: TRegisterFormSchema) => {
         const response = await handleRegister(data)
-        console.log("response in onSubmit : ",response)
         if(response.status === 200) {
-            return NextResponse.redirect('/');
+            permanentRedirect('/')
         }
     }
 

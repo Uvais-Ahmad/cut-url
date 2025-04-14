@@ -38,3 +38,7 @@ export const handleRegister = async (body: TRegisterFormSchema) => {
         data: JSON.stringify(body)
     })
 }
+
+export const handleGetME = async() => {
+    return axiosInstance('/api/me');
+}

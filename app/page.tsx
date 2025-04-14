@@ -154,6 +154,8 @@ export default function Home() {
       header : 'Date',
     }
   ]
+
+
   return (
     <div className='h-full'>
       <NavBar />

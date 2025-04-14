@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/Theme-provider";
+import { UserProvider } from "@/components/UserProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +24,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+
+
   return (
     <html lang="en">
       <body
@@ -32,7 +36,9 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="dark"
         >
-          {children}
+          <UserProvider>
+            {children}
+          </UserProvider>
         </ThemeProvider>
       </body>
     </html>
