@@ -6,7 +6,6 @@ function HomeLayout({
     children: React.ReactNode;
   }>) {
     return (<>
-        <div>HomeLayout</div>
         {children}
     </>)
 }

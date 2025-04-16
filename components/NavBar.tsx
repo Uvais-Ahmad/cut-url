@@ -3,10 +3,13 @@ import { Button } from './ui/button'
 import { useTheme } from 'next-themes'
 import { LogIn, Moon, Sun } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useUser } from './UserProvider'
+import { ProfileModalDialog } from './ProfileModal'
 
 function NavBar() {
     const { theme, setTheme } = useTheme()
     const router = useRouter();
+    const user = useUser();
     const handleLogin = () => {
         router.push('/login');
     }
@@ -25,20 +28,25 @@ function NavBar() {
                     className='rounded-full'
                     onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 >
-                    <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                    <Sun className="h-8 w-8 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                     <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                     <span className="sr-only">Toggle theme</span>
                 </Button>
-                <Button className='rounded-2xl bg-neutral-900 text-white border-2 mx-2 hover:bg-neutral-800'
-                    onClick={handleLogin}
-                >
-                    LogIn <LogIn/>
-                </Button>
-                <Button className='rounded-2xl bg-blue-500 text-white border-2 hover:bg-blue-400'
-                    onClick={handleRegister}
-                >
-                    Register Now
-                </Button>
+                {!user ? <>
+                    <Button className='rounded-2xl bg-neutral-900 text-white border-2 mx-2 hover:bg-neutral-800'
+                        onClick={handleLogin}
+                    >
+                        LogIn <LogIn/>
+                    </Button>
+                    <Button className='rounded-2xl bg-blue-500 text-white border-2 hover:bg-blue-400'
+                        onClick={handleRegister}
+                    >
+                        Register Now
+                    </Button>
+                </> 
+                : <>
+                    <ProfileModalDialog />
+                </>}
             </div>
         </div>
     )

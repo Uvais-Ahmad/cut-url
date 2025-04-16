@@ -1,12 +1,13 @@
 "use client"
 import { handleGetME } from "@/lib/api";
+import { User } from "@/types";
 import { createContext, useContext, useEffect, useState } from "react";
 
 
-const UserContext = createContext(null);
+const UserContext = createContext<User | undefined>(undefined);
 
 export const UserProvider =  ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User| undefined>(undefined);
     
     const fetchUser = async () => {
         const response = await handleGetME();

@@ -4,6 +4,7 @@ import { DataTable } from '@/components/DataTable';
 import Footer from '@/components/Footer';
 import LinkShortenerInput from '@/components/LinkShortnerInput';
 import NavBar from '@/components/NavBar';
+import { useUser } from '@/components/UserProvider';
 import { getShortUrl } from '@/lib/api';
 import { ShortUrlsProps } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
@@ -81,6 +82,8 @@ export default function Home() {
     else setData(dummyRecord);
   }
 
+  const user = useUser();
+  console.log(" user : ===",user)
   useEffect(() => {
     console.log('fetching data', reRender);
     fetchShortUrl();  
