@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 SaaS URL Shortener
 
-## Getting Started
+> A sleek and modern SaaS application for shortening URLs — built with **Next.js**, **Prisma**, **Supabase**, and **Tailwind CSS**. This tool helps users create, manage, and track short links with ease, all inside a clean, scalable full-stack architecture.
 
-First, run the development server:
+---
+
+## ✨ Key Highlights
+
+* 🔐 **Secure Authentication** with Supabase (Email & Password)
+* ✂️ **Robust Short URL Generation** with edge case & collision handling
+* 📈 **Future-Proof Analytics** (clicks, timestamps, referrers)
+* 🧾 **User Dashboard** for managing links in real-time
+* 🌍 **Custom Domain Support** (planned enhancement)
+* 💡 **Clean Code Architecture** with modular folder structure
+* 🖼️ **Responsive UI** styled using Tailwind CSS
+* ✅ **Easily Scalable** and developer-friendly setup
+
+---
+
+## 🛠 Tech Stack
+
+| Layer       | Technologies                |
+| ----------- | --------------------------- |
+| 💻 Frontend | Next.js, Tailwind CSS       |
+| 🔙 Backend  | Next.js API Routes          |
+| 🗃 Database | PostgreSQL (via Supabase)   |
+| 🔄 ORM      | Prisma                      |
+| 🔐 Auth     | Supabase Auth               |
+| ☁️ Hosting  | Vercel / Supabase           |
+| 🧪 Testing  | Jest (optional integration) |
+
+---
+
+## 🧩 Project Structure
+
+```bash
+📦 url-shortener-saas
+├── app/                 # App Router pages
+├── components/          # Reusable UI components
+├── lib/                 # Utility functions (e.g., ID generator)
+├── services/            # Supabase, Prisma, API helpers
+├── prisma/              # Prisma schema & migrations
+├── styles/              # Tailwind + global styles
+└── api/                 # Auth & URL API endpoints
+```
+
+---
+
+## ⚙️ Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Uvais-Ahmad/cut-url
+cd cut-url
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env` file:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+NEXT_PUBLIC_SHORT_CODE_LENGTH
+NEXT_PUBLIC_ANON_COOKIE_NAME
+NEXT_PUBLIC_BASE_URL
+SESSION_SECRET
+```
+
+### 4. Setup Prisma
+
+```bash
+npx prisma generate
+npx prisma migrate dev --name init
+```
+
+### 5. Run Locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit: `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔐 Authentication
 
-## Learn More
+This app uses **Supabase Auth** to secure user sessions. Protected routes are handled via Next.js middleware for seamless access control.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📊 Analytics (Upcoming Feature)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Planned analytics to include:
 
-## Deploy on Vercel
+* Total click count
+* Timestamp of visits
+* Browser & referrer data
+* IP and location tracking (optional)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🧪 Testing (Optional)
+
+```bash
+npm run test
+```
+
+Tests can be written using **Jest** or **Playwright**.
+
+---
+
+## ☁️ Deployment
+
+You can deploy easily using **Vercel** or **Supabase Edge Functions**. Don't forget to add the environment variables to your hosting dashboard.
+
+---
+
+## 🤝 Contribution
+
+Contributions, suggestions, and forks are welcome! Open a pull request to suggest improvements or new features.
+
+---
+
+## 📄 License
+
+MIT License — free to use and modify.
+
+---
+
+## 👨‍💻 Author
+
+Built by Uvais Ahmad(https://github.com/Uvais-Ahmad)
+
+* 📧 Email: uvss21@gmail.com(mailto:uvss21@gmail.com)
+* 🌐 LinkedIn: [https://www.linkedin.com/in/uvais-ahmad/](https://www.linkedin.com/in/uvais-ahmad/)
+
+---
+
+> ⭐ If you like this project, don't forget to star it on GitHub!
