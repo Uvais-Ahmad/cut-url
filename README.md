@@ -1,4 +1,4 @@
-# 🚀 SaaS URL Shortener
+# 🚀 BRIEFLY (a url shortener service)
 
 > A sleek and modern SaaS application for shortening URLs — built with **Next.js**, **Prisma**, **Supabase**, and **Tailwind CSS**. This tool helps users create, manage, and track short links with ease, all inside a clean, scalable full-stack architecture.
 
@@ -26,8 +26,7 @@
 | 🗃 Database | PostgreSQL (via Supabase)   |
 | 🔄 ORM      | Prisma                      |
 | 🔐 Auth     | Supabase Auth               |
-| ☁️ Hosting  | Vercel / Supabase           |
-| 🧪 Testing  | Jest (optional integration) |
+| ☁️ Hosting  | Vercel           |
 
 ---
 
@@ -38,10 +37,9 @@
 ├── app/                 # App Router pages
 ├── components/          # Reusable UI components
 ├── lib/                 # Utility functions (e.g., ID generator)
-├── services/            # Supabase, Prisma, API helpers
 ├── prisma/              # Prisma schema & migrations
 ├── styles/              # Tailwind + global styles
-└── api/                 # Auth & URL API endpoints
+└── app/api/                 # Auth & URL API endpoints
 ```
 
 ---
