@@ -130,12 +130,6 @@ Contributions, suggestions, and forks are welcome! Open a pull request to sugges
 
 ---
 
-## 📄 License
-
-MIT License — free to use and modify.
-
----
-
 ## 👨‍💻 Author
 
 Built by Uvais Ahmad(https://github.com/Uvais-Ahmad)
