@@ -1,13 +1,14 @@
 "use client"
 import LinkShortenerInput from '@/components/LinkShortnerInput'
 import NavBar from '@/components/NavBar'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@radix-ui/react-tabs';
-import { History } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs';
+import { BarChart2, Clock, LinkIcon, Settings } from 'lucide-react';
 import React, { useState } from 'react'
 
 // Home Page (for authenticated users)
 function MainHomePage() {
     const [reRender, setReRender] = useState<boolean>(false);
+    const [activeTab, setActiveTab] = useState('history');
     console.log("MainHomePage re-rendered", reRender);
     return (
         <div className='h-full'>
@@ -18,30 +19,41 @@ function MainHomePage() {
                 />            
 
                 {/* Tabs */}
-                <div className='flex flex-row justify-center m-5 border border-gray-200 w-full'>
-                    <Tabs defaultValue="shortened" className="my-6">
-                        <TabsList className="grid w-full grid-cols-4 gap-8 ">
-                            <div className="flex flex-row justify-center items-center">
-                                <History className="h-6 w-6 text-gray-500" />
-                                <TabsTrigger value="statistics" className="w-full text-center font-semibold text-gray-500 ">Shortened</TabsTrigger>
-                            </div>
-                            <TabsTrigger value="history" className="w-full text-center font-semibold text-gray-500 ">History</TabsTrigger>
-                            <TabsTrigger value="clickstream" className="w-full text-center font-semibold text-gray-500 ">Shortened</TabsTrigger>
-                            <TabsTrigger value="setting" className="w-full text-center font-semibold text-gray-500 ">History</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="shortened">
-                            {/* Shortened URLs Table */}
-                        </TabsContent>
-                        <TabsContent value="history">
-                            {/* History Table */}
-                        </TabsContent>
-                        <TabsContent value="shortened">
-                            {/* Shortened URLs Table */}
-                        </TabsContent>
-                        <TabsContent value="history">
-                            {/* History Table */}
-                        </TabsContent>
-                    </Tabs>
+                <div className='min-h-screen '>
+                    <div className='container mx-auto py-6'>
+                        <Tabs defaultValue="history" className="w-full bg-gray-50 dark:bg-neutral-900 shadow" onValueChange={setActiveTab}>
+                            <TabsList className="w-full flex justify-center bg-transparent p-0">
+                                <TabsTrigger
+                                    value="history"
+                                    className={`flex items-center gap-2 rounded-none border-b-2 px-8 py-4 ${activeTab === "history" ? "border-blue-500 text-blue-500" : "border-transparent text-gray-400"}`}
+                                >
+                                    <Clock className="h-4 w-4" />
+                                    History
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value="statistics"
+                                    className={`flex items-center gap-2 rounded-none border-b-2 px-4 py-4 ${activeTab === "statistics" ? "border-blue-500 text-blue-500" : "border-transparent text-gray-400"}`}
+                                >
+                                    <BarChart2 className="h-4 w-4" />
+                                    Statistics
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value="clickstream"
+                                    className={`flex items-center gap-2 rounded-none border-b-2 px-4 py-4 ${activeTab === "clickstream" ? "border-blue-500 text-blue-500" : "border-transparent text-gray-400"}`}
+                                >
+                                    <LinkIcon className="h-4 w-4" />
+                                    Click Stream
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value="settings"
+                                    className={`flex items-center gap-2 rounded-none border-b-2 px-4 py-4 ${activeTab === "settings" ? "border-blue-500 text-blue-500" : "border-transparent text-gray-400"}`}
+                                >
+                                    <Settings className="h-4 w-4" />
+                                    Settings
+                                </TabsTrigger>
+                            </TabsList>
+                        </Tabs>
+                    </div>
                 </div>
             </div>
         </div>
