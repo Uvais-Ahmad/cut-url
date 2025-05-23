@@ -161,6 +161,24 @@ function MainHomePage() {
                                     <DataTable columns={column} data={data} />
                                 </div>
                             </TabsContent>
+
+                            <TabsContent value="statistics" className="mt-6">
+                                <div className="flex items-center justify-center h-64 bg-neutral-950 rounded-lg">
+                                    <p className="text-gray-400">Statistics content will appear here</p>
+                                </div>
+                            </TabsContent>
+
+                            <TabsContent value="clickstream" className="mt-6">
+                                <div className="flex items-center justify-center h-64 bg-neutral-950 rounded-lg">
+                                    <p className="text-gray-400">Click Stream content will appear here</p>
+                                </div>
+                            </TabsContent>
+
+                            <TabsContent value="settings" className="mt-6">
+                                <div className="flex items-center justify-center h-64 bg-neutral-950 rounded-lg">
+                                    <p className="text-gray-400">Settings content will appear here</p>
+                                </div>
+                            </TabsContent>
                         </Tabs>
                     </div>
                 </div>
