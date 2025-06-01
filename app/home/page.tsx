@@ -114,28 +114,28 @@ function MainHomePage() {
                             <TabsList className="w-full flex justify-center bg-transparent p-0 bg-gray-50 dark:bg-neutral-900 shadow">
                                 <TabsTrigger
                                     value="history"
-                                    className={`flex items-center gap-2 rounded-none border-b-2 px-8 py-4 ${activeTab === "history" ? "border-blue-500 text-blue-500" : "border-transparent text-gray-400"}`}
+                                    className={`flex items-center gap-2 rounded-none border-b-2 px-8 py-4 ${activeTab === "history" ? "border-blue-500 text-blue-500 shadow-lg shadow-blue-500/50" : "border-transparent text-gray-400"}`}
                                 >
                                     <Clock className="h-4 w-4" />
                                     History
                                 </TabsTrigger>
                                 <TabsTrigger
                                     value="statistics"
-                                    className={`flex items-center gap-2 rounded-none border-b-2 px-4 py-4 ${activeTab === "statistics" ? "border-blue-500 text-blue-500" : "border-transparent text-gray-400"}`}
+                                    className={`flex items-center gap-2 rounded-none border-b-2 px-4 py-4 ${activeTab === "statistics" ? "border-blue-500 text-blue-500 shadow-lg shadow-blue-500/50" : "border-transparent text-gray-400"}`}
                                 >
                                     <BarChart2 className="h-4 w-4" />
                                     Statistics
                                 </TabsTrigger>
                                 <TabsTrigger
                                     value="clickstream"
-                                    className={`flex items-center gap-2 rounded-none border-b-2 px-4 py-4 ${activeTab === "clickstream" ? "border-blue-500 text-blue-500" : "border-transparent text-gray-400"}`}
+                                    className={`flex items-center gap-2 rounded-none border-b-2 px-4 py-4 ${activeTab === "clickstream" ? "border-blue-500 text-blue-500 shadow-lg shadow-blue-500/50" : "border-transparent text-gray-400"}`}
                                 >
                                     <LinkIcon className="h-4 w-4" />
                                     Click Stream
                                 </TabsTrigger>
                                 <TabsTrigger
                                     value="settings"
-                                    className={`flex items-center gap-2 rounded-none border-b-2 px-4 py-4 ${activeTab === "settings" ? "border-blue-500 text-blue-500" : "border-transparent text-gray-400"}`}
+                                    className={`flex items-center gap-2 rounded-none border-b-2 px-4 py-4 ${activeTab === "settings" ? "border-blue-500 text-blue-500 shadow-lg shadow-blue-500/50" : "border-transparent text-gray-400"}`}
                                 >
                                     <Settings className="h-4 w-4" />
                                     Settings
