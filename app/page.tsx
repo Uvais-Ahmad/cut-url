@@ -4,11 +4,11 @@ import { DataTable } from '@/components/DataTable';
 import Footer from '@/components/Footer';
 import LinkShortenerInput from '@/components/LinkShortnerInput';
 import NavBar from '@/components/NavBar';
-import { useUser } from '@/components/UserProvider';
 import { getShortUrl } from '@/lib/api';
 import { ShortUrlsProps } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { Link, QrCode, Unlink } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 
 
@@ -82,8 +82,8 @@ export default function Home() {
     else setData(dummyRecord);
   }
 
-  const user = useUser();
-  console.log(" user : ===",user)
+  const { data: session, status } = useSession()
+  console.log(" user of useSession: ===",session, status);
   useEffect(() => {
     console.log('fetching data', reRender);
     fetchShortUrl();  

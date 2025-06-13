@@ -1,16 +1,30 @@
+"use client"
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { TLogInFormSchema } from '@/lib/types'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import React from 'react' 
+import { useForm } from 'react-hook-form'
 
 function LogInForm() {
+
+    const {handleSubmit, register } = useForm<TLogInFormSchema>();
+
+    const onSubmit = async (data: TLogInFormSchema) => {
+        await signIn('credentials', {
+            ...data,    
+            redirect: false,
+            callbackUrl: '/home'
+        });
+    }
     return (
         <div className='flex flex-col gap-6'>
             <Card className='overflow-hidden'>
                 <CardContent className=''>
-                    <form className='p-6 md:p-8'>
+                    <form className='p-6 md:p-8' onSubmit={handleSubmit(onSubmit)}>
                         <div className='flex flex-col gap-6'>
                             {/* Header */}
                             <div className='flex flex-col items-center text-center'>
@@ -25,18 +39,26 @@ function LogInForm() {
                                     type="email"
                                     placeholder="m@example.com"
                                     required
+                                    {...register("email", {
+                                        required: "Please enter your valid email.",
+                                    })}
                                 />
                             </div>
 
                             <div className='grid gap-2'>
                                 <div className='flex items-center'>
                                     <Label htmlFor='password'>Password</Label>
+
                                     <a href='#' className='ml-auto text-sm underline-offset-2 hover:underline'>
                                         Forgot your password?
                                     </a>
                                 </div>
                                 <Input
                                     type='password' id='password' required
+                                    placeholder='Enter your password'
+                                    {...register("password", {
+                                        required: "Please enter your password.",
+                                    })}
                                 />
                             </div>
                             <Button type='submit' className='w-full'>
