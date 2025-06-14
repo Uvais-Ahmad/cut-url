@@ -8,11 +8,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { useUser } from "./UserProvider"
 import { CircleUserRound, Mail } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 
 export function ProfileModalDialog() {
-    const user = useUser();
+    const {data: auth} = useSession();
+    console.log("Auth in ProfileModalDialog", auth);
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -27,15 +28,15 @@ export function ProfileModalDialog() {
                     <DropdownMenuGroup>
                         <DropdownMenuItem>
                             <CircleUserRound/>
-                            {user?.name}
+                            {auth?.user?.name}
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                             <Mail />
-                            {user?.email}
+                            {auth?.user?.email}
                         </DropdownMenuItem>
                     </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut()}>
                 Log out
                 </DropdownMenuItem>
             </DropdownMenuContent>

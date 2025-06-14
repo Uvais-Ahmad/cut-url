@@ -11,15 +11,17 @@ import { useForm } from 'react-hook-form'
 
 function LogInForm() {
 
-    const {handleSubmit, register } = useForm<TLogInFormSchema>();
+    const {handleSubmit, register, formState: {errors} } = useForm<TLogInFormSchema>();
 
     const onSubmit = async (data: TLogInFormSchema) => {
+        console.log('Login Data:', data);
         await signIn('credentials', {
-            ...data,    
+            ...data, 
             redirect: false,
             callbackUrl: '/home'
         });
     }
+
     return (
         <div className='flex flex-col gap-6'>
             <Card className='overflow-hidden'>
@@ -43,6 +45,9 @@ function LogInForm() {
                                         required: "Please enter your valid email.",
                                     })}
                                 />
+                                {errors.email && (
+                                    <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+                                )}
                             </div>
 
                             <div className='grid gap-2'>
@@ -60,6 +65,9 @@ function LogInForm() {
                                         required: "Please enter your password.",
                                     })}
                                 />
+                                {errors.password && (
+                                    <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
+                                )}
                             </div>
                             <Button type='submit' className='w-full'>
                                 Login

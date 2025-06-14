@@ -1,7 +1,5 @@
 import { Copy, Link, MoveRight } from 'lucide-react'
 import React, { useState } from 'react'
-import { Switch } from './ui/switch'
-import { Label } from '@radix-ui/react-label'
 import { Button } from './ui/button'
 import { createShortUrl } from '@/lib/api'
 
@@ -42,10 +40,10 @@ function LinkShortenerInput({
                 </Button>
             </div>
 
-            <div className="flex items-center justify-center mt-6">
+            {/* <div className="flex items-center justify-center mt-6">
                 <Switch id="auto-paste" className='bg-white'/>
                 <Label htmlFor="auto-paste" className='text-neutral-500 mx-4'>Auto Paste from Clipboard</Label>
-            </div>
+            </div> */}
 
             {shortUrl && (
                 <div className='flex items-center mt-6 dark:bg-neutral-900 border-1 w-1/4 mx-auto rounded-lg p-2 px-6'>

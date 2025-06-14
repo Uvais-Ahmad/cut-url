@@ -3,13 +3,14 @@ import { Button } from './ui/button'
 import { useTheme } from 'next-themes'
 import { LogIn, Moon, Sun } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useUser } from './UserProvider'
 import { ProfileModalDialog } from './ProfileModal'
+import { useSession } from 'next-auth/react'
 
 function NavBar() {
     const { theme, setTheme } = useTheme()
     const router = useRouter();
-    const user = useUser();
+    const {data: auth} = useSession();
+    console.log("Auth in Navbar",auth, " condition: ", !auth?.user);
     const handleLogin = () => {
         router.push('/login');
     }
@@ -32,7 +33,7 @@ function NavBar() {
                     <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                     <span className="sr-only">Toggle theme</span>
                 </Button>
-                {!user ? <>
+                {!auth?.user ? <>
                     <Button className='rounded-2xl bg-neutral-900 text-white border-2 mx-2 hover:bg-neutral-800'
                         onClick={handleLogin}
                     >

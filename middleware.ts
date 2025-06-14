@@ -1,32 +1,53 @@
 import { nanoid } from 'nanoid';
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { decrypt } from './lib/session';
+import { getToken } from 'next-auth/jwt';
 
 // Define a session cookie name
-const ANON_COOKIE_NAME = process.env.NEXT_PUBLIC_ANON_COOKIE_NAME || "anonymousUserId";
+const ANON_COOKIE_NAME = process.env.NEXT_PUBLIC_ANON_COOKIE_NAME;
+const NEXT_AUTH_SECRET = process.env.NEXTAUTH_SECRET;
+
 const protectedRoutes = ['/home'];
 const publicRoutes = ['/', '/login', '/register'];
 
 export async function middleware(request: NextRequest) {
-    const {cookies } = request;
-    const  path = request.nextUrl.pathname;
-    const sessionCookie = cookies.get('session')?.value;
-    const anonymousUserId = cookies.get(ANON_COOKIE_NAME)?.value;
+    const { cookies, nextUrl } = request;
+    const  path = nextUrl.pathname;
 
     const isPublicRoute = publicRoutes.includes(path);
     const isProtectedRoute = protectedRoutes.includes(path);
 
-    const session = await decrypt(sessionCookie);
+    const token = await getToken({
+        req: request,
+        secret: process.env.NEXTAUTH_SECRET,
+    });
+    console.log("Token:", token);
 
-    if(session?.userId && isPublicRoute) {
-        // return NextResponse.redirect(new URL('/home', request.nextUrl))
+    const isAuth = !!token;
+    console.log("isAuth:", isAuth, "isPublicRoute:", isPublicRoute, "isProtectedRoute:", isProtectedRoute);
+    if (isProtectedRoute && isAuth) {
+        // Authenticated user trying to access login/register → redirect to dashboard
+        return NextResponse.redirect(new URL("/home", request.url));
     }
-    if(isProtectedRoute && !session?.userId) {
-        return NextResponse.redirect(new URL('/register', request.nextUrl))
+    // If not logged in and trying to access protected pages → redirect to /
+    if (!isAuth && isProtectedRoute) {
+        return NextResponse.redirect(new URL('/', request.url));
     }
 
-    if(!session?.userId && !anonymousUserId) {
+
+    if(!ANON_COOKIE_NAME) {
+        console.error("ANON_COOKIE_NAME is not defined in environment variables.");
+        return NextResponse.next();
+    }
+    if(!NEXT_AUTH_SECRET) {
+        console.error("NEXTAUTH_SECRET is not defined in environment variables.");
+        return NextResponse.next();
+    }
+    
+    const anonymousUserId = cookies.get(ANON_COOKIE_NAME)?.value;
+
+
+    if(!isAuth && !anonymousUserId) {
         const newAnonymousUserId = nanoid();
         const response = NextResponse.next();
         response.cookies.set(ANON_COOKIE_NAME, newAnonymousUserId, {
@@ -43,5 +64,5 @@ export async function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: '/:path*', // Run the middleware on all paths
-}
+    matcher: ["/home/:path*", "/login", "/register"],
+};
