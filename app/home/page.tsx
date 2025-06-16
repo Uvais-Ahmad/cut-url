@@ -10,13 +10,16 @@ import { ShortUrlsProps } from '@/types';
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs';
 import { ColumnDef } from '@tanstack/react-table';
 import { BarChart2, Clock, Link, LinkIcon, ListFilterPlus, ListTodo, QrCode, Settings, Unlink } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react'
 
 // Home Page (for authenticated users)
 function MainHomePage() {
     const [reRender, setReRender] = useState<boolean>(false);
     const [activeTab, setActiveTab] = useState('history');
-    
+    const {data: session } = useSession();
+    console.log("Session Data:", session);
+
     const [data, setData] = useState<ShortUrlsProps[]>([]);
     const fetchShortUrl = async () => {
         const response = await getShortUrl();

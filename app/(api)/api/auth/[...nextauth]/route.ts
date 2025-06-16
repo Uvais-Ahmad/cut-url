@@ -17,7 +17,7 @@ export const authOptions = {
                 });
 
                 const user = res.data;
-
+                console.log("User from NextAuth:", user);
                 if (res.status === 200 && user) {
                     // Any object returned will be saved in `user` property of the JWT
                     return user;

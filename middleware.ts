@@ -21,11 +21,12 @@ export async function middleware(request: NextRequest) {
         req: request,
         secret: process.env.NEXTAUTH_SECRET,
     });
-    console.log("Token:", token);
+    console.log("Token:========================================", token);
 
     const isAuth = !!token;
     console.log("isAuth:", isAuth, "isPublicRoute:", isPublicRoute, "isProtectedRoute:", isProtectedRoute);
-    if (isProtectedRoute && isAuth) {
+    if (isPublicRoute && isAuth) {
+        console.log("Authenticated user trying to access public route:", request.url);
         // Authenticated user trying to access login/register → redirect to dashboard
         return NextResponse.redirect(new URL("/home", request.url));
     }
@@ -64,5 +65,6 @@ export async function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: ["/home/:path*", "/login", "/register"],
-};
+    matcher: ['/((?!_next|favicon.ico).*)'],
+}
+

@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label'
 import { TLogInFormSchema } from '@/lib/types'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import React from 'react' 
 import { useForm } from 'react-hook-form'
 
@@ -20,6 +21,7 @@ function LogInForm() {
             redirect: false,
             callbackUrl: '/home'
         });
+        redirect('/home');
     }
 
     return (

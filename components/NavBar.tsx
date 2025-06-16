@@ -10,7 +10,6 @@ function NavBar() {
     const { theme, setTheme } = useTheme()
     const router = useRouter();
     const {data: auth} = useSession();
-    console.log("Auth in Navbar",auth, " condition: ", !auth?.user);
     const handleLogin = () => {
         router.push('/login');
     }
