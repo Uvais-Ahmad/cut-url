@@ -21,10 +21,8 @@ export async function middleware(request: NextRequest) {
         req: request,
         secret: process.env.NEXTAUTH_SECRET,
     });
-    console.log("Token:========================================", token);
 
     const isAuth = !!token;
-    console.log("isAuth:", isAuth, "isPublicRoute:", isPublicRoute, "isProtectedRoute:", isProtectedRoute);
     if (isPublicRoute && isAuth) {
         console.log("Authenticated user trying to access public route:", request.url);
         // Authenticated user trying to access login/register → redirect to dashboard

@@ -10,10 +10,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { CircleUserRound, Mail } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 export function ProfileModalDialog() {
     const {data: auth} = useSession();
-    console.log("Auth in ProfileModalDialog", auth);
+    useEffect(() => {
+        console.log("Auth in ProfileModalDialog useEffect", auth);
+    }, [auth]);
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -8,7 +8,6 @@ import { getShortUrl } from '@/lib/api';
 import { ShortUrlsProps } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { Link, QrCode, Unlink } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 
 
@@ -82,10 +81,7 @@ export default function Home() {
     else setData(dummyRecord);
   }
 
-  const { data: session, status } = useSession()
-  console.log(" user of useSession: ===",session, status);
   useEffect(() => {
-    console.log('fetching data', reRender);
     fetchShortUrl();  
   }, [reRender]);
 
