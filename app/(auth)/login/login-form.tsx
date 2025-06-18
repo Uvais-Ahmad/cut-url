@@ -15,7 +15,6 @@ function LogInForm() {
     const {handleSubmit, register, formState: {errors} } = useForm<TLogInFormSchema>();
 
     const onSubmit = async (data: TLogInFormSchema) => {
-        console.log('Login Data:', data);
         await signIn('credentials', {
             ...data, 
             redirect: false,
