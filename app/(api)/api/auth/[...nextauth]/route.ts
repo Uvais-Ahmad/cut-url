@@ -36,11 +36,10 @@ export const authOptions = {
                     data: JSON.stringify(credentials)
                 });
 
-                const user = res.data;
-                console.log("User from NextAuth:", user);
-                if (res.status === 200 && user) {
+                const data = res.data;
+                if (res.status === 200 && data && data.user) {
                     // Any object returned will be saved in `user` property of the JWT
-                    return user;
+                    return data.user;
                 }
                 
                 return null;
