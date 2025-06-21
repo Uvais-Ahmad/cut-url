@@ -14,6 +14,7 @@ export async function POST(request: NextRequest) {
     try {
         const { originalUrl } = await request.json();
         const session = await getServerSession(authOptions);
+        const dbUserId: string | null = session?.user?.id || null;
         const cookies = request.cookies.get(ANON_COOKIE_NAME)?.value;
         const ip: string = request.headers.get('x-forwarded-for') || 'unknown';
         
@@ -25,30 +26,31 @@ export async function POST(request: NextRequest) {
                 status: 400 // Bad Request
             });
         }
-        if(session && session.user) {
-            
-        }
 
-        let anonUserExists = await prisma.anonymousUser.findUnique({
-            where: {
-                sessionId: cookies
-            }
-        });
-
-        if (!anonUserExists && cookies) {
-            anonUserExists = await prisma.anonymousUser.create({
-                data: {
-                    sessionId: cookies,
-                    ipAddress: ip
+        let anonUserExists;
+        if(!dbUserId) {
+            anonUserExists = await prisma.anonymousUser.findUnique({
+                where: {
+                    sessionId: cookies
                 }
             });
+
+            if (!anonUserExists && cookies) {
+                anonUserExists = await prisma.anonymousUser.create({
+                    data: {
+                        sessionId: cookies,
+                        ipAddress: ip
+                    }
+                });
+            }
         }
 
         // check if the URL already exists
         const urlExists = await prisma.shortUrl.findFirst({
             where: {
                 originalUrl,
-                anonUserId: anonUserExists?.id
+                anonUserId: !dbUserId ? anonUserExists?.id: null,
+                userId: dbUserId || null,
             }
         });
         if(urlExists) {
@@ -61,15 +63,14 @@ export async function POST(request: NextRequest) {
             });
         }
 
-        
-
         const shortCode = nanoid(shortCodeLen);
 
         const shortUrlRecord = await prisma.shortUrl.create({
             data: {
                 originalUrl,
                 shortCode,
-                anonUserId: anonUserExists?.id
+                anonUserId: !dbUserId ? anonUserExists?.id: null,
+                userId: dbUserId || null,
             }
         });
 
@@ -91,10 +92,11 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-    const ip: string = request.headers.get('x-forwarded-for') || 'unknown';
+    const session = await getServerSession(authOptions);
+    const dbUserId: string | null = session?.user?.id || null;
     const cookies = request.cookies.get(ANON_COOKIE_NAME)?.value;
-    console.log("Cookies:", cookies);
-    if(!cookies) {
+
+    if(!dbUserId && !cookies) {
         return NextResponse.json({
             error: "Anonymous user not found"
         }, {
@@ -102,24 +104,19 @@ export async function GET(request: NextRequest) {
         });
     }
 
-    let anonUserExists = await prisma.anonymousUser.findUnique({
-        where: {
-            sessionId: cookies
-        }
-    });
-    console.log("Anon User Exists:", anonUserExists);
-    if(!anonUserExists) {
-        anonUserExists = await prisma.anonymousUser.create({
-            data: {
-                sessionId: cookies,
-                ipAddress: ip
+    let anonUserExists;
+    if(!dbUserId) {
+        anonUserExists = await prisma.anonymousUser.findUnique({
+            where: {
+                sessionId: cookies
             }
         });
     }
 
     const data = await prisma.shortUrl.findMany({
         where: {
-            anonUserId: anonUserExists.id
+            anonUserId: !dbUserId ? anonUserExists?.id: null,
+            userId: dbUserId || null,
         },
         orderBy: {
             createdAt: "desc"
