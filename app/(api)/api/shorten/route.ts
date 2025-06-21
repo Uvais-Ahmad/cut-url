@@ -15,8 +15,7 @@ export async function POST(request: NextRequest) {
         const { originalUrl } = await request.json();
         const session = await getServerSession(authOptions);
         const dbUserId: string | null = session?.user?.id || null;
-        const cookies = request.cookies.get(ANON_COOKIE_NAME)?.value;
-        const ip: string = request.headers.get('x-forwarded-for') || 'unknown';
+        const visitorUId = request.cookies.get(ANON_COOKIE_NAME)?.value;
         
         // check if the URL is valid
         if (!originalUrl || !validateUrl(originalUrl)) {
@@ -27,29 +26,11 @@ export async function POST(request: NextRequest) {
             });
         }
 
-        let anonUserExists;
-        if(!dbUserId) {
-            anonUserExists = await prisma.anonymousUser.findUnique({
-                where: {
-                    sessionId: cookies
-                }
-            });
-
-            if (!anonUserExists && cookies) {
-                anonUserExists = await prisma.anonymousUser.create({
-                    data: {
-                        sessionId: cookies,
-                        ipAddress: ip
-                    }
-                });
-            }
-        }
-
         // check if the URL already exists
         const urlExists = await prisma.shortUrl.findFirst({
             where: {
                 originalUrl,
-                anonUserId: !dbUserId ? anonUserExists?.id: null,
+                anonUserId: !dbUserId ? visitorUId: null,
                 userId: dbUserId || null,
             }
         });
@@ -69,7 +50,7 @@ export async function POST(request: NextRequest) {
             data: {
                 originalUrl,
                 shortCode,
-                anonUserId: !dbUserId ? anonUserExists?.id: null,
+                anonUserId: !dbUserId ? visitorUId : null,
                 userId: dbUserId || null,
             }
         });
@@ -94,28 +75,11 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
     const session = await getServerSession(authOptions);
     const dbUserId: string | null = session?.user?.id || null;
-    const cookies = request.cookies.get(ANON_COOKIE_NAME)?.value;
-
-    if(!dbUserId && !cookies) {
-        return NextResponse.json({
-            error: "Anonymous user not found"
-        }, {
-            status: 400
-        });
-    }
-
-    let anonUserExists;
-    if(!dbUserId) {
-        anonUserExists = await prisma.anonymousUser.findUnique({
-            where: {
-                sessionId: cookies
-            }
-        });
-    }
+    const visitorUId = request.cookies.get(ANON_COOKIE_NAME)?.value;
 
     const data = await prisma.shortUrl.findMany({
         where: {
-            anonUserId: !dbUserId ? anonUserExists?.id: null,
+            anonUserId: !dbUserId ? visitorUId: null,
             userId: dbUserId || null,
         },
         orderBy: {

@@ -1,7 +1,9 @@
 import axiosInstance from "@/lib/axiosInstance"
-import NextAuth, { User, Session } from "next-auth"
+import { PrismaClient } from "@prisma/client";
+import NextAuth, { User, Session, Account, Profile } from "next-auth"
 import { JWT } from "next-auth/jwt";
-
+const prisma = new PrismaClient();
+const ANON_COOKIE_NAME: string = process.env.NEXT_PUBLIC_ANON_COOKIE_NAME as string;
 // Extend the Session and User types to include 'id'
 declare module "next-auth" {
     interface Session {
@@ -21,6 +23,7 @@ declare module "next-auth" {
 }
 
 import CredentialsProvider from "next-auth/providers/credentials"
+import { cookies } from "next/headers";
 export const authOptions = {
 
     providers: [
@@ -65,6 +68,28 @@ export const authOptions = {
             }
             return session;
         },
+        async signIn({ user, account, profile }: { user: User; account: Account | null; profile?: Profile }) {
+            const cookiesStore = await cookies();
+            console.log("user", user, "account", account, "profile", profile);
+            const visitorUId = cookiesStore.get(ANON_COOKIE_NAME)?.value;
+            console.log("visitorUId", visitorUId);
+            if(visitorUId && user && user.id) {
+                const updatedShortUrls = await prisma.shortUrl.updateMany({
+                    where: {
+                        anonUserId: visitorUId,
+                        userId: null, // Only update if the user is not logged in
+                    },
+                    data: {
+                        userId: user.id, // Assign the logged-in user's ID
+                        anonUserId: null, // Clear the anonymous user ID
+                    }
+                });
+                console.log(`Updated ${updatedShortUrls.count} short URLs for user`);
+            }
+            // remove the anonymous user cookie after sign-in
+            cookiesStore.delete(ANON_COOKIE_NAME);
+            return true; // Return true to allow sign-in
+        }
     },
     session: {
         strategy: "jwt" as const,
