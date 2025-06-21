@@ -1,8 +1,28 @@
 import axiosInstance from "@/lib/axiosInstance"
-import NextAuth from "next-auth"
+import NextAuth, { User, Session } from "next-auth"
+import { JWT } from "next-auth/jwt";
+
+// Extend the Session and User types to include 'id'
+declare module "next-auth" {
+    interface Session {
+        user: {
+            id?: string;
+            name?: string | null;
+            email?: string | null;
+            image?: string | null;
+        }
+    }
+    interface User {
+        id?: string;
+        name?: string | null;
+        email?: string | null;
+        image?: string | null;
+    }
+}
+
 import CredentialsProvider from "next-auth/providers/credentials"
 export const authOptions = {
-  
+
     providers: [
         // ...add more providers here
         CredentialsProvider({
@@ -27,6 +47,26 @@ export const authOptions = {
             },
         })
     ],
+    callbacks: {
+        async jwt({ token, user }: { token: JWT; user?: User }) {
+            // Persist the user information in the token
+            if (user) {
+                token.id = user.id;
+                token.email = user.email;
+                token.name = user.name;
+            }
+            return token;
+        },
+        async session({ session, token }: { session: Session; token: JWT }) {
+            // Send properties to the client, like an access_token from a provider.
+            if (session.user) {
+                session.user.id = token.id as string;
+                session.user.email = token.email;
+                session.user.name = token.name;
+            }
+            return session;
+        },
+    },
     session: {
         strategy: "jwt" as const,
     },
