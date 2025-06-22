@@ -3,10 +3,14 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 const prisma = new PrismaClient();
+interface LogInBody {
+    email: string;  
+    password: string;
+}
 
 export async function POST(request: NextRequest) {
-    const body: unknown = await request.json();
-    const data = JSON.parse(body.data as string);
+    const body = await request.json();
+    const data: LogInBody = JSON.parse(body.data as string) as LogInBody;
     console.log("LogIn Body : ",data)
     const validateFields = LogInFormSchema.safeParse(data);
     console.log("LogIn Validation : ",validateFields)
