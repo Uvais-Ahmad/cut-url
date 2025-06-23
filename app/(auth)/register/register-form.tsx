@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { handleRegister } from '@/lib/api'
 import { TRegisterFormSchema } from '@/lib/types'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { permanentRedirect } from 'next/navigation'
 import React from 'react'
@@ -16,7 +17,12 @@ export function RegisterForm() {
     const onSubmit = async (data: TRegisterFormSchema) => {
         const response = await handleRegister(data)
         if(response.status === 200) {
-            permanentRedirect('/')
+            await signIn('credentials', {
+                ...data, 
+                redirect: false,
+                callbackUrl: '/home'
+            });
+            permanentRedirect('/home');
         }
     }
 
