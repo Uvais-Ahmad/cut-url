@@ -1,4 +1,4 @@
-import { createSession } from "@/lib/session";
+// import { createSession } from "@/lib/session";
 import { RegisterFormSchema } from "@/lib/types";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     }
     
     // Create user in database
-    const user = await prisma.user.create({
+    await prisma.user.create({
         data: {
             name,
             email,
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     });
 
     // create session
-    await createSession(user?.id);
+    // await createSession(user?.id);
     return NextResponse.json({
         message: "Registered Successfully"
     },{
