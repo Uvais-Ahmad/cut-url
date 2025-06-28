@@ -45,12 +45,14 @@ function LinkShortenerInput({
                 <Label htmlFor="auto-paste" className='text-neutral-500 mx-4'>Auto Paste from Clipboard</Label>
             </div> */}
 
-            {shortUrl && (
-                <div className='flex items-center mt-6 dark:bg-neutral-900 border-1 w-1/4 mx-auto rounded-lg p-2 px-6'>
-                    <div className='flex items-center'>
-                        <div className='w-2 h-2 bg-green-500 rounded-full mr-2'></div>
-                        <div className='text-neutral-400'>{shortUrl}</div>
-                        <Button size={'icon'} className='bg-gray-800 text-white rounded-full hover:bg-gray-700 ml-8'>
+            {shortUrl || true && (
+                <div className='flex items-center justify-center mt-6 dark:bg-neutral-900 border-1 w-1/5 mx-auto rounded-lg p-2 px-1'>
+                    <div className='flex items-center justify-between w-full'>
+                        <div className='flex items-center'>
+                            <div className='w-2 h-2 bg-green-500 rounded-full mr-2'></div>
+                            <div className='text-neutral-400'>{shortUrl || 'http://localhost:3000/srpxYUU'}</div>
+                        </div>
+                        <Button size={'icon'} className='bg-gray-800 text-white rounded-full hover:bg-gray-700'>
                             <Copy />
                         </Button>
                     </div>
