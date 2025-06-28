@@ -45,9 +45,6 @@ export async function POST(request: NextRequest) {
         }
 
         const shortCode = nanoid(shortCodeLen);
-
-        console.log("Creating short URL for:", originalUrl, "with short code:", shortCode);
-        console.log("User ID:", dbUserId, "Visitor ID:", visitorUId);
         const shortUrlRecord = await prisma.shortUrl.create({
             data: {
                 originalUrl,
@@ -57,7 +54,6 @@ export async function POST(request: NextRequest) {
             },
         });
 
-        console.log("Short URL created:", shortUrlRecord);
         return NextResponse.json({
             shortUrl: `${BaseUrl}/${shortCode}`,
             message: "Short URL created successfully",
