@@ -76,12 +76,12 @@ export const authOptions = {
             if(visitorUId && user && user.id) {
                 const updatedShortUrls = await prisma.shortUrl.updateMany({
                     where: {
-                        anonUserId: visitorUId,
+                        visitorUId: visitorUId,
                         userId: null, // Only update if the user is not logged in
                     },
                     data: {
                         userId: user.id, // Assign the logged-in user's ID
-                        anonUserId: null, // Clear the anonymous user ID
+                        visitorUId: null, // Clear the anonymous user ID
                     }
                 });
                 console.log(`Updated ${updatedShortUrls.count} short URLs for user`);

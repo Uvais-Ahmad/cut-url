@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
         const urlExists = await prisma.shortUrl.findFirst({
             where: {
                 originalUrl,
-                anonUserId: !dbUserId ? visitorUId: null,
+                visitorUId: !dbUserId ? visitorUId: null,
                 userId: dbUserId || null,
             }
         });
@@ -46,15 +46,18 @@ export async function POST(request: NextRequest) {
 
         const shortCode = nanoid(shortCodeLen);
 
+        console.log("Creating short URL for:", originalUrl, "with short code:", shortCode);
+        console.log("User ID:", dbUserId, "Visitor ID:", visitorUId);
         const shortUrlRecord = await prisma.shortUrl.create({
             data: {
                 originalUrl,
                 shortCode,
-                anonUserId: !dbUserId ? visitorUId : null,
-                userId: dbUserId || null,
-            }
+                visitorUId: !dbUserId ? visitorUId : null,
+                ...(dbUserId && { userId: dbUserId }),
+            },
         });
 
+        console.log("Short URL created:", shortUrlRecord);
         return NextResponse.json({
             shortUrl: `${BaseUrl}/${shortCode}`,
             message: "Short URL created successfully",
@@ -79,7 +82,7 @@ export async function GET(request: NextRequest) {
 
     const data = await prisma.shortUrl.findMany({
         where: {
-            anonUserId: !dbUserId ? visitorUId: null,
+            visitorUId: !dbUserId ? visitorUId: null,
             userId: dbUserId || null,
         },
         orderBy: {

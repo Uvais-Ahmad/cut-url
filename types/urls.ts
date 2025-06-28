@@ -1,5 +1,5 @@
 export interface ShortUrlsProps {
-    anonUserId?: string;
+    visitorUId?: string;
     clicks: number;
     createdAt: string;
     expiredAt?: string | null;
