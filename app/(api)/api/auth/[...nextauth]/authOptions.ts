@@ -2,6 +2,7 @@ import axiosInstance from "@/lib/axiosInstance"
 import { PrismaClient } from "@prisma/client";
 import { User, Session, Account, Profile } from "next-auth"
 import { JWT } from "next-auth/jwt";
+import GoogleProvider from "next-auth/providers/google";
 const prisma = new PrismaClient();
 const ANON_COOKIE_NAME: string = process.env.NEXT_PUBLIC_ANON_COOKIE_NAME as string;
 // Extend the Session and User types to include 'id'
@@ -47,6 +48,10 @@ export const authOptions = {
                 
                 return null;
             },
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         })
     ],
     callbacks: {
