@@ -1,4 +1,4 @@
-export function getAuthErrorMessage(error: string | AuthError): string {
+export function getAuthErrorMessage(error: string): string {
     if (typeof error === 'string') {
         switch (error) {
             case 'CredentialsSignin':
