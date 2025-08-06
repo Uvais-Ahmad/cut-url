@@ -5,6 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/Theme-provider";
 import { SessionProvider } from "next-auth/react"
 import { Analytics } from "@vercel/analytics/next"
+import { Toaster } from 'sonner'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,12 @@ export default function RootLayout({
           >
             <SessionProvider>
             {children}
+            <Toaster 
+            position="top-right"
+            richColors
+            expand
+            closeButton
+          />
             </SessionProvider>
         </ThemeProvider>
       </body>

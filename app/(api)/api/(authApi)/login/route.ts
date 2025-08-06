@@ -2,57 +2,86 @@ import { LogInFormSchema } from "@/lib/types";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
+import { ZodError } from "zod";
+
 const prisma = new PrismaClient();
+
 interface LogInBody {
     email: string;  
     password: string;
 }
 
 export async function POST(request: NextRequest) {
-    const body = await request.json();
-    const data: LogInBody = JSON.parse(body.data as string) as LogInBody;
-    console.log("LogIn Body : ",data)
-    const validateFields = LogInFormSchema.safeParse(data);
-    console.log("LogIn Validation : ",validateFields)
-    if(!validateFields.success) {
-        return NextResponse.json(validateFields, {status: 400})
-    }
+    try {
+        const body = await request.json();
+        const data: LogInBody = JSON.parse(body.data as string) as LogInBody;
+        
+        const validateFields = LogInFormSchema.safeParse(data);
+        
+        if (!validateFields.success) {
+            const fieldErrors: Record<string, string> = {};
+            
+            validateFields.error.errors.forEach((error) => {
+                const field = error.path[0] as string;
+                fieldErrors[field] = error.message;
+            });
 
-    const {email, password} = validateFields.data;
-    const userExists = await prisma.user.findUnique({
-        where: {
-            email
+            return NextResponse.json({
+                message: "Invalid input data",
+                errors: fieldErrors
+            }, { status: 400 });
         }
-    });
 
-    if(!userExists) {
-        console.log("User does not exist");
+        const { email, password } = validateFields.data;
+        
+        const userExists = await prisma.user.findUnique({
+            where: { email: email.toLowerCase() }
+        });
+
+        if (!userExists) {
+            return NextResponse.json({
+                message: "Invalid credentials",
+                errors: {
+                    email: 'Invalid email or password',
+                    password: 'Invalid email or password'
+                }
+            }, { status: 401 });
+        }
+
+        const isValidPassword = await bcrypt.compare(password, userExists.password);
+
+        if (!isValidPassword) {
+            return NextResponse.json({
+                message: "Invalid credentials",
+                errors: {
+                    password: 'Invalid email or password'
+                }
+            }, { status: 401 });
+        }
+
         return NextResponse.json({
-            errors: {
-                email: 'Incorrect email or password',
-                name: '',
-                password: []
+            message: "Login successful",
+            user: {
+                id: userExists.id,
+                name: userExists.name,
+                email: userExists.email,
+                createdAt: userExists.createdAt,
+                updatedAt: userExists.updatedAt
             }
-        }, {status: 400})
-    }
+        }, { status: 200 });
 
-    const  isValidPassword = await bcrypt.compare(password, userExists.password);
-
-    if (!isValidPassword) {
-        console.log("Invalid password");
-        return NextResponse.json({ message: "Invalid credentials" }, {status: 400});
-    }
-
-    console.log("User logged in successfully");
-    return NextResponse.json({
-        message: "User logged in successfully",
-        user: {
-            id: userExists.id,
-            name: userExists.name,
-            email: userExists.email,
-            createdAt: userExists.createdAt,
-            updatedAt: userExists.updatedAt
+    } catch (error) {
+        console.error("Login error:", error);
+        
+        if (error instanceof ZodError) {
+            return NextResponse.json({
+                message: "Invalid input data",
+                errors: error.errors
+            }, { status: 400 });
         }
-    }, {status: 200});
 
+        return NextResponse.json({
+            message: "Internal server error occurred during login"
+        }, { status: 500 });
+    }
 }
