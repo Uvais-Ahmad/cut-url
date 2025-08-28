@@ -6,7 +6,24 @@ export function ThemeProvider({
     children,
     ...props
     }: React.ComponentProps<typeof NextThemesProvider>) {
-    return <NextThemesProvider {...props}>
-        {children}
-    </NextThemesProvider>
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        // Return children without theme provider on server
+        return <>{children}</>;
+    }
+
+    return (
+        <NextThemesProvider 
+            {...props}
+            enableSystem
+            disableTransitionOnChange
+        >
+            {children}
+        </NextThemesProvider>
+    );
 }

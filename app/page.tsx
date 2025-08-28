@@ -46,8 +46,8 @@ const DUMMY_DATA: ShortUrlsProps[] = [
 // Public Home Page (for non-authenticated users) // // //
 export default function Home() {
   const { data: session, status } = useSession();
-  const [data, setData] = useState<ShortUrlsProps[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState<ShortUrlsProps[]>(DUMMY_DATA); // Start with dummy data
+  const [isLoading, setIsLoading] = useState(false); // Don't show loading initially
   const [error, setError] = useState<string | null>(null);
 
   const isAuthenticated = !!session;
@@ -62,14 +62,12 @@ export default function Home() {
       
       if (response.data?.shortUrls?.length) {
         setData(response.data.shortUrls);
-      } else {
-        // Use dummy data for demonstration
-        setData(DUMMY_DATA);
       }
+      // If no data from API, keep dummy data (don't set it again)
     } catch (err) {
       console.error('Error fetching URLs:', err);
       setError('Failed to load URLs');
-      setData(DUMMY_DATA); // Fallback to dummy data
+      // Keep dummy data on error
       toast.error('Failed to load your URLs. Showing sample data.');
     } finally {
       setIsLoading(false);
