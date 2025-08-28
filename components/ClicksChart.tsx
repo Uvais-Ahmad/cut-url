@@ -47,19 +47,6 @@ export default function ClicksChart({ data }: ClicksChartProps) {
   }
 
   const { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } = RechartsComponents;
-          <CardTitle>Clicks & Visitors Over Time</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Track your link performance over the last 30 days
-          </p>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[300px] bg-muted rounded animate-pulse flex items-center justify-center">
-            <div className="text-muted-foreground">Loading chart...</div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
 
   return (
     <Card className="col-span-2">

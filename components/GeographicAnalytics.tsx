@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { GeoData, DeviceData, BrowserData } from '@/types/analytics';
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 
 interface GeographicAnalyticsProps {
   geoData: GeoData[];
@@ -15,12 +14,25 @@ const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accen
 
 export default function GeographicAnalytics({ geoData, deviceData, browserData }: GeographicAnalyticsProps) {
   const [isMounted, setIsMounted] = useState(false);
+  const [RechartsComponents, setRechartsComponents] = useState<any>(null);
 
   useEffect(() => {
     setIsMounted(true);
+    
+    // Dynamically import Recharts only on client side
+    const loadRecharts = async () => {
+      try {
+        const recharts = await import('recharts');
+        setRechartsComponents(recharts);
+      } catch (error) {
+        console.error('Failed to load Recharts:', error);
+      }
+    };
+    
+    loadRecharts();
   }, []);
 
-  if (!isMounted) {
+  if (!isMounted || !RechartsComponents) {
     return (
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 3 }).map((_, i) => (
@@ -38,6 +50,8 @@ export default function GeographicAnalytics({ geoData, deviceData, browserData }
       </div>
     );
   }
+
+  const { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } = RechartsComponents;
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
