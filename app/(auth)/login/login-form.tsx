@@ -71,20 +71,18 @@ function LogInForm() {
     const handleGoogleSignIn = async () => {
         setIsLoading(true);
         try {
-            const result = await signIn('google', { 
-                redirect: false,
-                callbackUrl: '/home' 
+            console.log("Starting Google sign-in...");
+            // For OAuth providers, signIn redirects immediately
+            await signIn('google', { 
+                callbackUrl: '/home',
+                redirect: true
             });
-            
-            if (result?.error) {
-                const errorMessage = getAuthErrorMessage(result.error);
-                toast.error(errorMessage);
-            }
-        } catch {
+        } catch (error) {
+            console.error("Google sign-in exception:", error);
             toast.error('Failed to sign in with Google. Please try again.');
-        } finally {
             setIsLoading(false);
         }
+        // Note: setIsLoading(false) is not called here because the page will redirect
     };
 
     return (

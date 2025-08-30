@@ -52,6 +52,13 @@ export const authOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string, 
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+            authorization: {
+                params: {
+                    prompt: "consent",
+                    access_type: "offline",
+                    response_type: "code"
+                }
+            }
         })
     ],
     callbacks: {
@@ -75,7 +82,47 @@ export const authOptions = {
         },
         async signIn({ user, account, profile }: { user: User; account: Account | null; profile?: Profile }) {
             const cookiesStore = await cookies();
-            console.log("user", user, "account", account, "profile", profile);
+            console.log("=== SIGNIN CALLBACK START ===");
+            console.log("Provider:", account?.provider);
+            console.log("User data:", { id: user.id, email: user.email, name: user.name });
+            console.log("Account data:", account);
+            console.log("Profile data:", profile);
+            
+            // Handle Google authentication
+            if (account?.provider === 'google' && user.email) {
+                try {
+                    console.log("Processing Google authentication for:", user.email);
+                    
+                    // Check if user already exists
+                    let existingUser = await prisma.user.findUnique({
+                        where: { email: user.email }
+                    });
+                    
+                    console.log("Existing user found:", existingUser ? existingUser.id : 'None');
+                    
+                    // If user doesn't exist, create them
+                    if (!existingUser) {
+                        console.log("Creating new user for Google auth");
+                        existingUser = await prisma.user.create({
+                            data: {
+                                email: user.email,
+                                name: user.name || '',
+                                password: null, // No password for Google users
+                            }
+                        });
+                        console.log("Created new user with ID:", existingUser.id);
+                    }
+                    
+                    // Update user object with database ID
+                    user.id = existingUser.id;
+                    console.log("Updated user ID to:", user.id);
+                    
+                } catch (error) {
+                    console.error("Error handling Google sign-in:", error);
+                    return false;
+                }
+            }
+            
             const visitorUId = cookiesStore.get(ANON_COOKIE_NAME)?.value;
             console.log("visitorUId", visitorUId);
             if(visitorUId && user && user.id) {
@@ -93,6 +140,7 @@ export const authOptions = {
             }
             // remove the anonymous user cookie after sign-in
             cookiesStore.delete(ANON_COOKIE_NAME);
+            console.log("=== SIGNIN CALLBACK SUCCESS ===");
             return true; // Return true to allow sign-in
         }
     },
