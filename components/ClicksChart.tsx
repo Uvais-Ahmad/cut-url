@@ -10,7 +10,7 @@ interface ClicksChartProps {
 
 function ClicksChart({ data }: ClicksChartProps) {
   const [isMounted, setIsMounted] = useState(false);
-  const [RechartsComponents, setRechartsComponents] = useState<any>(null);
+  const [RechartsComponents, setRechartsComponents] = useState<typeof import('recharts') | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -122,19 +122,20 @@ function ClicksChart({ data }: ClicksChartProps) {
                 tickLine={false}
               />
               <Tooltip 
-                content={({ active, payload, label }: any) => {
+                content={(props) => {
+                  const { active, payload, label } = props;
                   if (active && payload && payload.length) {
                     return (
                       <div className="bg-background/95 backdrop-blur-sm border border-border/50 rounded-xl p-4 shadow-lg ring-1 ring-black/5 dark:ring-white/10">
                         <p className="text-sm font-semibold text-foreground mb-3">
-                          {new Date(label).toLocaleDateString('en-US', { 
+                          {new Date(String(label || '')).toLocaleDateString('en-US', { 
                             weekday: 'short', 
                             month: 'short', 
                             day: 'numeric' 
                           })}
                         </p>
                         <div className="space-y-2">
-                          {payload.map((entry: any, index: number) => (
+                          {payload.map((entry, index: number) => (
                             <div key={index} className="flex items-center justify-between gap-4">
                               <div className="flex items-center gap-2">
                                 <div 

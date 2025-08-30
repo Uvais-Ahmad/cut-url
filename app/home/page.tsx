@@ -1,4 +1,5 @@
 "use client"
+import Image from 'next/image';
 import { AuthenticatedDataTable } from '@/components/AuthenticatedDataTable';
 import LinkShortenerInput from '@/components/LinkShortnerInput'
 import NavBar from '@/components/NavBar'
@@ -227,7 +228,7 @@ function MainHomePage() {
                 const favicon = `https://www.google.com/s2/favicons?domain=${new URL(data).hostname}&sz=16`;
                 return (
                     <div className='flex items-center space-x-3'>
-                        <img 
+                        <Image 
                             src={favicon} 
                             alt="" 
                             width={16}

@@ -23,7 +23,7 @@ const COLORS = [
 
 function GeographicAnalytics({ geoData, deviceData, browserData }: GeographicAnalyticsProps) {
   const [isMounted, setIsMounted] = useState(false);
-  const [RechartsComponents, setRechartsComponents] = useState<any>(null);
+  const [RechartsComponents, setRechartsComponents] = useState<typeof import('recharts') | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -100,7 +100,8 @@ function GeographicAnalytics({ geoData, deviceData, browserData }: GeographicAna
                   ))}
                 </Pie>
                 <Tooltip 
-                  content={({ active, payload }: any) => {
+                  content={(props) => {
+                    const { active, payload } = props;
                     if (active && payload && payload.length) {
                       const data = payload[0].payload;
                       return (
@@ -175,7 +176,8 @@ function GeographicAnalytics({ geoData, deviceData, browserData }: GeographicAna
                   tickLine={false}
                 />
                 <Tooltip 
-                  content={({ active, payload, label }: any) => {
+                  content={(props) => {
+                    const { active, payload, label } = props;
                     if (active && payload && payload.length) {
                       return (
                         <div className="bg-background/95 backdrop-blur-sm border border-border rounded-xl p-4 shadow-xl">
@@ -183,7 +185,7 @@ function GeographicAnalytics({ geoData, deviceData, browserData }: GeographicAna
                           <div className="flex items-center gap-2 mt-2">
                             <div className="w-3 h-3 rounded-full bg-emerald-500" />
                             <span className="text-sm text-muted-foreground">
-                              {payload[0].value.toLocaleString()} clicks
+                              {payload[0].value?.toLocaleString()} clicks
                             </span>
                           </div>
                         </div>
@@ -257,7 +259,8 @@ function GeographicAnalytics({ geoData, deviceData, browserData }: GeographicAna
                   ))}
                 </Pie>
                 <Tooltip 
-                  content={({ active, payload }: any) => {
+                  content={(props) => {
+                    const { active, payload } = props;
                     if (active && payload && payload.length) {
                       const data = payload[0].payload;
                       return (

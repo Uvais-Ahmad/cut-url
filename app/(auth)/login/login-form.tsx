@@ -80,7 +80,7 @@ function LogInForm() {
                 const errorMessage = getAuthErrorMessage(result.error);
                 toast.error(errorMessage);
             }
-        } catch (error) {
+        } catch {
             toast.error('Failed to sign in with Google. Please try again.');
         } finally {
             setIsLoading(false);

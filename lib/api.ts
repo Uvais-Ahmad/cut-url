@@ -5,7 +5,7 @@ import axios, { AxiosError } from 'axios';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
     status: number;
     data?: T;
     message?: string;
